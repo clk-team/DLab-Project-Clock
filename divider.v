@@ -1,4 +1,4 @@
-module devider(
+module divider(
     input clk,
     output reg secclk = 0,
     output reg msecclk = 0

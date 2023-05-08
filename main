@@ -1,3 +1,4 @@
+
 module main{
     input clk;
     input up;
@@ -11,3 +12,6 @@ module main{
 
 reg secclk, msecclk;  //秒、毫秒
 divider second(clk, secclk, msecclk);  //秒、毫秒
+
+
+sevenseg kkk(num, seg);

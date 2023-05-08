@@ -1,10 +1,9 @@
-
-module seven_seg{
+module seven_seg(
     input num, 
-    output seg[7:0]
-}
+    output reg[7:0] seg
+);
 
-always @(num)
+always @(posedge num)
   begin 
       case(num)
         0 : seg = 8'b00000011;
@@ -17,4 +16,7 @@ always @(num)
         7 : seg = 8'b00011111;
         8 : seg = 8'b00000001;
         9 : seg = 8'b00001001;
+    endcase
   end
+  
+endmodule

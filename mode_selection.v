@@ -12,6 +12,7 @@ module mode_selection(clk,sel,up,down,rel);
                 S4   = 4,
 
         reg [2:0] cur_state,next_state,cur_state_1;
+        reg debounce;
 
         always@(posedge clk) begin
         if(!sel)
@@ -26,29 +27,74 @@ module mode_selection(clk,sel,up,down,rel);
         always@(cur_state or up or down) begin
                 case(cur_state)
                         IDLE: begin
-                                if        (up) next_state <= cur_state_1 + 1;
-                                else if (down) next_state <= cur_state_1 - 1;
-                                else           next_state <= cur_state_1;
+                                if      (up && !debounce) begin 
+                                        next_state <= cur_state_1 + 1;
+                                        debounce   <= 1;
+                                end
+                                else if (down && !debounce) begin 
+                                        next_state <= cur_state_1 - 1;
+                                        debounce   <= 1;
+                                end
+                                else begin
+                                        next_state <= cur_state_1;
+                                        debounce <= 0;
+                                end
                         end
                         S1: begin
-                                if        (up) next_state <= S2;
-                                else if (down) next_state <= S4;
-                                else           next_state <= S1;
+                                if      (up && !debounce) begin
+                                        next_state <= S2;
+                                        debounce   <= 1;
+                                end
+                                else if (down && !debounce) begin
+                                        next_state <= S4;
+                                        debounce   <= 1;
+                                end
+                                else begin
+                                        next_state <= S1;
+                                        debounce <= 0;
+                                end
                         end
                         S2: begin
-                                if        (up) next_state <= S3;
-                                else if (down) next_state <= S1;
-                                else           next_state <= S2;
+                                if      (up && !debounce) begin
+                                        next_state <= S3;
+                                        debounce   <= 1;
+                                end
+                                else if (down && !debounce) begin
+                                        next_state <= S1;
+                                        debounce   <= 1;
+                                end
+                                else begin
+                                        next_state <= S2;
+                                        debounce   <= 0;
+                                end
                         end
                         S3: begin
-                                if        (up) next_state <= S4;
-                                else if (down) next_state <= S2;
-                                else           next_state <= S3;
+                                if    (up && !debounce) begin
+                                        next_state <= S4;
+                                        debounce   <= 1;
+                                end
+                                else if (down && !debounce) begin
+                                        next_state <= S2;
+                                        debounce   <= 1;
+                                end
+                                else begin
+                                        next_state <= S3;
+                                        debounce   <= 0;
+                                end
                         end
                         S4: begin
-                                if        (up) next_state <= S1;
-                                else if (down) next_state <= S3;
-                                else           next_state <= S4;
+                                if      (up && !debounce) begin
+                                        next_state <= S1;
+                                        debounce   <= 1;
+                                end
+                                else if (down && !debounce) begin
+                                        next_state <= S3;
+                                        debounce   <= 1;
+                                end
+                                else begin
+                                        next_state <= S4;
+                                        debounce   <= 0;
+                                end
                         end
                 endcase
         end

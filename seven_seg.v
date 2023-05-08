@@ -18,3 +18,5 @@ always @(num)
         8 : seg = 8'b00000001;
         9 : seg = 8'b00001001;
   end
+
+endmodule

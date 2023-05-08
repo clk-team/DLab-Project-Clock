@@ -31,14 +31,6 @@ module(clk, up, down, left, right, seg, show, sound)
     output show[7:0];  //七段顯示器的電晶體
     output sound; //聲音
 ```
-預計接口
-    input clk;
-    input up;
-    input down;
-    input left;
-    input right;
-    output seg[7:0];  //七段顯示器
-    output show[7:0];  //七段顯示器的電晶體
-    output sound; //聲音
+
 
     

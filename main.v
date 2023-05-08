@@ -17,7 +17,7 @@ reg secclk, msecclk;  //秒、毫秒
 divider second(clk, secclk, msecclk, newclk);  //秒、毫秒
 reg num = 0;  //拿來弄電晶體
 
-always @(newclk)
+always @(posedge newclk)
 begin
     num = num + 1;
     if(num == 8)

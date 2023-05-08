@@ -6,6 +6,7 @@ module devider(
 
 reg counter[30:0] = 0;
 reg counter2[20:0] = 0;
+
 always @(posedge clk)
   begin
     counter <= 1;

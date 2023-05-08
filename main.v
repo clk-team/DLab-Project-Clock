@@ -32,8 +32,9 @@ begin
     light = 0;
 end
 
-current_time bbb(secclk, year, month, day, hour, minute, second, week); //基礎時間
+current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動
 shower ccc(light, show);//七段顯示器(電晶體)
+basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); //基本時間(mode 1) 時:分:秒
 sevenseg ddd(num, seg);//七段顯示器(數字轉換)
 
 endmodule

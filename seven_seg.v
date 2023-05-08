@@ -16,7 +16,8 @@ always @(posedge num)
         7 : seg = 8'b00011111;
         8 : seg = 8'b00000001;
         9 : seg = 8'b00001001;
+        default : seg = 8'b11111111;
     endcase
   end
-  
+
 endmodule

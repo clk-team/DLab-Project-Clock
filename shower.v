@@ -1,12 +1,12 @@
 
 module shower(
-    input num,
+    input light,
     output reg [7:0]a
 );
 
-always @(posedge num)
+always @(posedge light)
   begin 
-      case(num)
+      case(light)
         0 : a = 8'b01111111;
         1 : a = 8'b10111111;
         2 : a = 8'b11011111;
@@ -15,6 +15,7 @@ always @(posedge num)
         5 : a = 8'b11111011;
         6 : a = 8'b11111101;
         7 : a = 8'b11111110;
-    endcase
+        default : a = 8'b11111111;
+         endcase
   end
   endmodule

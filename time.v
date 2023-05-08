@@ -1,4 +1,4 @@
-module time(
+module current_time(
     input secclk,
     output reg [15:0]year, 
     output reg [5:0]month, 

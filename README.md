@@ -12,8 +12,25 @@
 - [ ] 鬧鐘
 - [ ] 碼表
 - [ ] 倒計時
-- [ ] Mode選擇器
+- [ ] Mode選擇器  
+  
 
+  
+ 
+# Module port
+
+**For example**
+```v
+module(clk, up, down, left, right, seg, show, sound)
+    input clk;
+    input up;
+    input down;
+    input left;
+    input right;
+    output seg[7:0];  //七段顯示器
+    output show[7:0];  //七段顯示器的電晶體
+    output sound; //聲音
+```
 預計接口
     input clk;
     input up;

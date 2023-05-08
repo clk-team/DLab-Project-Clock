@@ -20,7 +20,7 @@
 # Module port
 
 **For example**
-```v
+```verilog
 module(clk, up, down, left, right, seg, show, sound)
     input clk;
     input up;

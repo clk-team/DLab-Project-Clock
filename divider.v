@@ -27,3 +27,5 @@ always @(posedge clk)
     end
     newclk = counter3;
   end
+  
+endmodule

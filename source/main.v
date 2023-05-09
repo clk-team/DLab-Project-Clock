@@ -36,6 +36,7 @@ basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); /
 seven_seg eee(num, seg);//七段顯示器(數字轉換)
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示器(電晶體)
 alarm fff(newclk, mode, up, down, hour, minute, second, middle, alarm_mode, do );//鬧鐘(mode 3)
-music ggg(do, sound);  //鬧鐘時間到：輸出聲音
+
+music ggg( clk, music, sound);  //聲音轉換(sound為輸出)
 
 endmodule

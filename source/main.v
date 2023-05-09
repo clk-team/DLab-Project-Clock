@@ -37,7 +37,7 @@ always@(posedge clk) begin
 end
 
 current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動(mode 0)
-mode_selection mode_sel(clk,sel,up,down,rel,modify);
+mode_selection mode_sel(clk,sel,up,down,rel,middle);
 basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); //基本時間(mode 1) 時:分:秒
 seven_seg eee(num, seg);//七段顯示器(數字轉換)
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示器(電晶體)

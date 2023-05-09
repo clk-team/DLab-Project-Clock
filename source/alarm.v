@@ -2,6 +2,8 @@
 module alarm(
     input newclk,
     input mode,
+    input up, 
+    input down,
     input [10:0]hour,
     input [10:0]minute,
     input [10:0]second, 
@@ -16,7 +18,7 @@ module alarm(
 
     reg [10:0]temp_hour;
     reg [10:0]temp_minute;
-    reg [10:0]temp_hour;
+    reg [10:0]temp_second;
     reg open_do;
 
   initial begin

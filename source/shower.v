@@ -1,7 +1,7 @@
-
 module shower(
-    input light,
-    ipnut msecclk,
+    input [2:0]light,
+    input newclk,
+    input msecclk,
     input [2:0]alarm_mode,
     output reg [7:0]a
 );
@@ -10,7 +10,7 @@ reg[8:0]counter = 0;
 always @(posedge msecclk)
   counter <= counter + 1;  //半秒閃一次
 
-always @(posedge light)
+always @(light)
   begin 
     if(alarm_mode == 0)//正常模式
     begin
@@ -99,7 +99,6 @@ if(alarm_mode == 1)//改變時
         7 : a = 8'b11111110;
         default : a = 8'b11111111;
          endcase
+      end
     end
-
-  end
-  endmodule
+    endmodule

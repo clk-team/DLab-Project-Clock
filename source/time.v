@@ -14,32 +14,32 @@ initial begin
     year = 2023;
     month = 5;
     day = 9;
-    hour = 0;
-    minute = 0;
-    second = 0;
+    hour = 11;
+    minute = 59;
+    second = 58;
     week = 2;
 end
 
 always @(posedge secclk)
 begin
-    second <= second + 1;
+    second = second + 1;
     if(second == 60)
       begin
         second <= 0;
-        minute <= minute + 1;
-      end
-
-    if(minute == 60)
+        minute = minute + 1;
+     end
+     
+     if(minute == 60)
       begin
         minute <= 0;
-        hour <= hour + 1;
+        hour = hour + 1;
       end
-
+   
     if(hour == 24)
       begin
         hour <= 0;
-        day <= day + 1;
-        week <= week + 1;
+        day = day + 1;
+        week = week + 1;
       end
 
     if(week == 8)
@@ -49,81 +49,79 @@ begin
 
    if(month == 1 && day == 32)   
      begin
-        month = 2;
-        day = 1;
+        month <= 2;
+        day <= 1;
      end
 
-     if(month == 2 && day == 30 && year % 4 = 0 && year % 400 != 0)   
+     if(month == 2 && day == 30 && year % 4 == 0 && year % 400 != 0)   
      begin
-        month = 3;
-        day = 1;
+        month <= 3;
+        day <= 1;
      end
     if(month == 2 && day == 29 && (year % 4 != 0 || year % 400 == 0))   
      begin
-        month = 3;
-        day = 1;
+        month <= 3;
+        day <= 1;
      end
 
      if(month == 3 && day == 32)   
      begin
-        month = 4;
-        day = 1;
+        month <= 4;
+        day <= 1;
      end
 
      if(month == 4 && day == 31)   
      begin
-        month = 5;
-        day = 1;
+        month <= 5;
+        day <= 1;
      end
 
      if(month == 5 && day == 32)   
      begin
-        month = 6;
-        day = 1;
+        month <= 6;
+        day <= 1;
      end
 
      if(month == 6 && day == 31)   
      begin
-        month = 7;
-        day = 1;
+        month <= 7;
+        day <= 1;
      end
 
      if(month == 7 && day == 32)   
      begin
-        month = 8;
-        day = 1;
+        month <= 8;
+        day <= 1;
      end
 
      if(month == 8 && day == 32)   
      begin
-        month = 9;
-        day = 1;
+        month <= 9;
+        day <= 1;
      end
 
      if(month == 9 && day == 31)   
      begin
-        month = 10;
-        day = 1;
+        month <= 10;
+        day <= 1;
      end
 
      if(month == 10 && day == 32)   
      begin
-        month = 11;
-        day = 1;
+        month <= 11;
+        day <= 1;
      end
 
      if(month == 11 && day == 31)   
      begin
-        month = 12;
-        day = 1;
+        month <= 12;
+        day <= 1;
      end
 
      if(month == 12 && day == 32)   
      begin
-        month = 1;
-        day = 1;
+        month <= 1;
+        day <= 1;
      end
-
-end
-
-endmodule
+   end
+  endmodule

@@ -24,14 +24,20 @@ wire[2:0] alarm_mode = 0;  //0:正常 1:改變秒 2:改變分 3:改變時
 reg do = 0;
 reg [5:0]mode = 1;
 divider aaa(clk, secclk, msecclk, newclk);  //秒、毫秒
+reg [3:0]sel; // 當前模式
+wire [3:0]rel; //下個clk的模式
 
 always @(posedge newclk)
 begin
     light <= light + 1;
 end
 
-current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動
+always@(posedge clk) begin
+    sel <= rel;
+end
 
+current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動(mode 0)
+mode_selection mode_sel(clk,sel,up,down,rel,modify);
 basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); //基本時間(mode 1) 時:分:秒
 seven_seg eee(num, seg);//七段顯示器(數字轉換)
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示器(電晶體)

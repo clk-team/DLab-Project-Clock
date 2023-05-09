@@ -22,6 +22,8 @@ reg newclk;  //除頻
 reg secclk, msecclk;  //秒、毫秒
 reg num = 0;  
 reg light = 0; //電晶體
+wire[2:0] alarm_mode = 0;  //0:正常 1:改變秒 2:改變分 3:改變時
+reg do = 0;
 
 divider aaa(clk, secclk, msecclk, newclk);  //秒、毫秒
 
@@ -33,8 +35,13 @@ begin
 end
 
 current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動
-shower ccc(light, show);//七段顯示器(電晶體)
+
 basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); //基本時間(mode 1) 時:分:秒
 sevenseg eee(num, seg);//七段顯示器(數字轉換)
+
+alarm fff(clk, mode, hour, minute, second, middle, alarm_mode, do);//鬧鐘(mode 3)
+shower ccc(light, msecclk, alarm_mode, show);//七段顯示器(電晶體)
+music ggg(do, sound); //鬧鐘時間到：輸出聲音
+
 
 endmodule

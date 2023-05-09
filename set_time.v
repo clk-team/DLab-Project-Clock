@@ -17,6 +17,9 @@ output reg[7:0]sec = 0;
 
 reg start_set = 0;
 reg [75:0] set_string;
+reg[3:0] count = 0;
+reg[31:0] timer;
+
 
 always @(*) begin
     
@@ -33,8 +36,24 @@ always @(mode) begin
 end
 
 always @(posedge clk) begin
+
+    if(button_l == 1 || button_r == 1)
+        timer <= timer + 1;
+        else
+            timer <= 0;
+
+    if(timer == 2500000)begin
+        if(button_l == 1)
+        count <= count +1;
+        else if(button_r == 1)
+        count <= count - 1;
     
+    
+    
+    end
 end
+
+
 
 
 endmodule //set_time

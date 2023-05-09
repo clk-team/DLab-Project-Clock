@@ -10,7 +10,7 @@ module main(
     output sound //聲音
 );
 
-reg secclk, msecclk;  //秒、毫秒
+wire secclk, msecclk;  //秒、毫秒
 divider second(clk, secclk, msecclk);  //秒、毫秒
 
 

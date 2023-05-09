@@ -39,7 +39,7 @@ current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間
 basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); //基本時間(mode 1) 時:分:秒
 sevenseg eee(num, seg);//七段顯示器(數字轉換)
 
-alarm fff(clk, mode, hour, minute, second, middle, alarm_mode, do);//鬧鐘(mode 3)
+alarm fff(newclk, mode, hour, minute, second, middle, alarm_mode, do);//鬧鐘(mode 3)
 shower ccc(light, msecclk, alarm_mode, show);//七段顯示器(電晶體)
 music ggg(do, sound); //鬧鐘時間到：輸出聲音
 

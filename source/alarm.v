@@ -17,27 +17,21 @@ module alarm(
     reg [10:0]temp_hour;
     reg [10:0]temp_minute;
     reg [10:0]temp_hour;
+    reg open_do;
 
   initial begin
     temp = middle;
     do = 0;
+    open_do = 0;  //open_do == 1 代表編譯狀態
   end
 
-    if(temp != middle)
-    begin
-        count <= count + 1;
-        if(count == 1_000_000)
-      begin 
-        count <= 0;
-        tenp <= middle;
-      end
-    end
-    else
-        count <= 0;
-    
-    if(middle == 1 && stop == 0)
-      begin
-        stop = 1;
-      end
-
+  if(temp == 0 && middle == 1)
+     begin
+        open_do = ~open_do;
+        temp = 1;
+     end
+  if(middle == 0 && temp == 1)
+  begin
+    temp = 0;
+  end
 endmodule

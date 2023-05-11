@@ -80,15 +80,17 @@ always @(*) begin
     if(month_d == 1 || month_d == 2)begin
         month_f <= month_d + 12;
         year_f <= year_d - 1;
+        
     end
     
     else begin
         month_f <= month_d ;
         year_f <= year_d ;
+        
     end
 
-    week = ((year_f % 100) + (year_f % 100)/4 + (year_f / 100)/4 - 2*(year_f / 100) + (26*(month_f+1))/10+ day_d - 1);
-    week = (week % 7 + 7)%7;
+    week = (day_d + 2*month_f + 3*(month_f + 1)/5 + year_f + year_f / 4 - year_f / 100 + year_f / 400 + 1) % 7;
+   
 end
 
 

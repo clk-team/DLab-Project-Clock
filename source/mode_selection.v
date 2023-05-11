@@ -1,101 +1,72 @@
-module mode_selection(clk,sel,up,down,rel);
+`timescale 1ns / 1ps
+
+module mode_selection(clk,sel,up,down,rel,modify);
 
         input clk;
-        input [2:0]sel;
-        input up,down;
-        output reg [2:0]rel;
-
-        parameter IDLE = 0,
-                S1   = 1,
-                S2   = 2,
-                S3   = 3,
-                S4   = 4,
-
-        reg [2:0] cur_state,next_state,cur_state_1;
-        reg debounce;
-
-        always@(posedge clk) begin
-        if(!sel)
-                cur_state_1 <= cur_state;
-                cur_state   <= IDLE;
-        else
-                cur_state <= next_state;
-        end
-
-        assign rel = cur_state;
-
-        always@(cur_state or up or down) begin
-                case(cur_state)
-                        IDLE: begin
-                                if      (up && !debounce) begin 
-                                        next_state <= cur_state_1 + 1;
-                                        debounce   <= 1;
-                                end
-                                else if (down && !debounce) begin 
-                                        next_state <= cur_state_1 - 1;
-                                        debounce   <= 1;
-                                end
-                                else begin
-                                        next_state <= cur_state_1;
-                                        debounce <= 0;
-                                end
-                        end
-                        S1: begin
-                                if      (up && !debounce) begin
-                                        next_state <= S2;
-                                        debounce   <= 1;
-                                end
-                                else if (down && !debounce) begin
-                                        next_state <= S4;
-                                        debounce   <= 1;
-                                end
-                                else begin
-                                        next_state <= S1;
-                                        debounce <= 0;
-                                end
-                        end
-                        S2: begin
-                                if      (up && !debounce) begin
-                                        next_state <= S3;
-                                        debounce   <= 1;
-                                end
-                                else if (down && !debounce) begin
-                                        next_state <= S1;
-                                        debounce   <= 1;
-                                end
-                                else begin
-                                        next_state <= S2;
-                                        debounce   <= 0;
-                                end
-                        end
-                        S3: begin
-                                if    (up && !debounce) begin
-                                        next_state <= S4;
-                                        debounce   <= 1;
-                                end
-                                else if (down && !debounce) begin
-                                        next_state <= S2;
-                                        debounce   <= 1;
-                                end
-                                else begin
-                                        next_state <= S3;
-                                        debounce   <= 0;
-                                end
-                        end
-                        S4: begin
-                                if      (up && !debounce) begin
-                                        next_state <= S1;
-                                        debounce   <= 1;
-                                end
-                                else if (down && !debounce) begin
-                                        next_state <= S3;
-                                        debounce   <= 1;
-                                end
-                                else begin
-                                        next_state <= S4;
-                                        debounce   <= 0;
-                                end
-                        end
-                endcase
-        end
+        input [3:0]sel;
+        input up,down,modify;
+        output reg [3:0]rel;
+        
+        reg [3:0]cur_state,cur_state_1;
+        
+         
+        reg debounce=0,debounce_modi=0;
+        parameter IDLE = 8,
+                 S0   = 0,
+                 S1   = 1,
+                 S2   = 2,
+                 S3   = 3,
+                 S4   = 4,
+                 S5   = 5,
+                 S6   = 6,
+                 S7   = 7;
+                 
+       always@(posedge modify) begin //當中間按下時切換至mode 0,並在下次按時再切回cur_state_1
+           if(!debounce_modi) begin
+                rel <= S0;
+                debounce_modi <= 1;
+           end
+           else if(debounce_modi) begin
+                rel <= cur_state_1;
+                debounce_modi <= 0;
+           end
+       end
+       
+       always@(posedge clk) begin
+          if(up && !debounce) begin
+            case(cur_state)
+                IDLE: begin
+                    if(cur_state_1 != S7 && !debounce_modi) begin //透過先前記下的cur_state_1來改變(排除mode 0情況)
+                        debounce <= 1;
+                        rel <= cur_state_1 + 1;
+                    end
+                    else if(!debounce_modi)begin
+                        debounce <= 1;
+                        rel <= S1;
+                    end
+                end
+           endcase
+           end
+           else if(down && !debounce) begin //透過先前記下的cur_state_1來改變(排除mode 0情況)
+            case(cur_state)
+                IDLE: begin
+                    if(cur_state_1 != S1 && !debounce_modi) begin
+                        debounce <= 1;
+                        rel <= cur_state_1 - 1;
+                    end
+                    else if(!debounce_modi)begin
+                        debounce <= 1;
+                        rel <= S7;
+                    end
+                end
+           endcase
+           end
+           else if(!up && !down && !debounce_modi)begin //沒輸入時IDLE,將這時的輸入記下，以便下次up or down更改時利用
+               cur_state <= IDLE;
+               rel <= sel;
+               debounce <= 0;
+               cur_state_1 <= sel;
+           end
+       end
+                
 endmodule

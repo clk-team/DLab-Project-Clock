@@ -31,5 +31,6 @@ initial begin
 end
 
 always #10 clk = ~ clk;
+always #100 button_l = ~ button_l;
     
 endmodule

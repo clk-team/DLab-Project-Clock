@@ -19,8 +19,8 @@ output reg[7:0]sec = 0;
 output reg [3:0]week = 0;
 
 reg start_set = 0;
-reg [75:0] set_string;
-reg[3:0] count = 0;
+reg [83:0] set_string;
+reg[4:0] count = 20;
 reg[31:0] timer;
 
 reg [3:0]year_th = 2;
@@ -103,22 +103,107 @@ always @(mode) begin
 end
 
 always @(posedge clk) begin
+    if(start_set == 1)begin
 
     if(button_l == 1 || button_r == 1)
         timer <= timer + 1;
         else
             timer <= 0;
 
-    if(timer == 2500000)begin
+    if(timer == 3)begin    //2500000
         if(button_l == 1) begin
 
-            if(count >=6)
+            if(count >= 20)
                 count <= 0;
+            else if(count == 3)
+                count <= 5;
+            else if(count == 6 )
+                count <= 8;
+            else if(count == 9)
+                count <= 11;
+            else if(count == 11)
+                count <= 13;
+            else if(count == 14)
+                count <= 16;
+            else if(count == 17)
+                count <= 19;
             else
-                count <= count +1;
+                count <= count + 1;
+
+            // if(count == 4 || count == 7 || count == 10 || count == 12 || count == 15 || count == 18) //4 7 10 12 15 18
+            //     count <= count + 1;
 
         end
         else if(button_r == 1)begin
+
+            if(count <= 0)
+                count <= 20;
+            else if(count == 3)
+                count <= 1;
+            else if(count == 6 )
+                count <= 4;
+            else if(count == 9)
+                count <= 7;
+            else if(count == 11)
+                count <= 9;
+            else if(count == 14)
+                count <= 12;
+            else if(count == 17)
+                count <= 15;
+            else
+                count <= count - 1;
+
+            // if(count == 4 || count == 7 || count == 10 || count == 12 || count == 15 || count == 18) //4 7 10 12 15 18
+            //     count <= count - 1;
+        end
+    
+    end
+    end
+end
+
+always @(posedge clk or posedge start_set) begin
+
+    if(button_up == 1 || button_down == 1)
+        timer <= timer + 1;
+        else
+            timer <= 0;
+
+    if(timer == 2500000)begin
+        if(button_up == 1) begin //4 7 10 12 15 18
+
+            case (count)
+            /*year*/
+            20:
+            19:
+            17:
+            16:
+
+            /*month*/
+            14:
+            13:
+
+            /*day*/
+            11:
+            9:
+
+            /*hour*/
+            6:
+            5:
+
+            /*minute*/
+            3:
+            2:
+
+            /*sec*/
+            1:
+            0:
+                
+            endcase
+                
+            
+
+        end
+        else if(button_down == 1)begin
 
             if(count <= 0)
                 count <= 6;
@@ -128,32 +213,6 @@ always @(posedge clk) begin
     
     end
 end
-
-// always @(posedge clk) begin
-
-//     if(button_up == 1 || button_down == 1)
-//         timer <= timer + 1;
-//         else
-//             timer <= 0;
-
-//     if(timer == 2500000)begin
-//         if(button_up == 1) begin
-
-//             if(count >= 0 && count <= 15)
-                
-//             endcase
-
-//         end
-//         else if(button_down == 1)begin
-
-//             if(count <= 0)
-//                 count <= 6;
-//             else
-//                 count <= count - 1;
-//         end
-    
-//     end
-// end
 
 
 

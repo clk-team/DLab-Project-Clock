@@ -21,7 +21,7 @@ module mode_selection(clk,sel,up,down,rel,modify);
                  S6   = 6,
                  S7   = 7;
                  
-       always@(posedge modify) begin
+       always@(posedge modify) begin //當中間按下時切換至mode 0,並在下次按時再切回cur_state_1
            if(!debounce_modi) begin
                 rel <= S0;
                 debounce_modi <= 1;
@@ -36,7 +36,7 @@ module mode_selection(clk,sel,up,down,rel,modify);
           if(up && !debounce) begin
             case(cur_state)
                 IDLE: begin
-                    if(cur_state_1 != S7 && !debounce_modi) begin
+                    if(cur_state_1 != S7 && !debounce_modi) begin //透過先前記下的cur_state_1來改變(排除mode 0情況)
                         debounce <= 1;
                         rel <= cur_state_1 + 1;
                     end
@@ -47,7 +47,7 @@ module mode_selection(clk,sel,up,down,rel,modify);
                 end
            endcase
            end
-           else if(down && !debounce) begin
+           else if(down && !debounce) begin //透過先前記下的cur_state_1來改變(排除mode 0情況)
             case(cur_state)
                 IDLE: begin
                     if(cur_state_1 != S1 && !debounce_modi) begin
@@ -61,7 +61,7 @@ module mode_selection(clk,sel,up,down,rel,modify);
                 end
            endcase
            end
-           else if(!up && !down && !debounce_modi)begin
+           else if(!up && !down && !debounce_modi)begin //沒輸入時IDLE,將這時的輸入記下，以便下次up or down更改時利用
                cur_state <= IDLE;
                rel <= sel;
                debounce <= 0;

@@ -27,6 +27,7 @@ divider aaa(clk, secclk, msecclk, newclk);  //秒、毫秒
 reg [3:0]sel; // 當前模式
 wire [3:0]rel; //下個clk的模式
 
+reg[5:0] music//拿蘭傳音符
 always @(posedge newclk)
 begin
     light <= light + 1;
@@ -37,11 +38,12 @@ always@(posedge clk) begin
 end
 
 current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動(mode 0)
-mode_selection mode_sel(clk,sel,up,down,rel,modify);
+mode_selection mode_sel(clk,sel,up,down,rel,middle);
 basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); //基本時間(mode 1) 時:分:秒
 seven_seg eee(num, seg);//七段顯示器(數字轉換)
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示器(電晶體)
 alarm fff(newclk, mode, up, down, hour, minute, second, middle, alarm_mode, do );//鬧鐘(mode 3)
-music ggg(do, sound);  //鬧鐘時間到：輸出聲音
+musicwake ggg(do, music);  //啟動音樂(樂譜)
+music hhh( clk, music, sound);  //聲音轉換(sound為輸出)
 
 endmodule

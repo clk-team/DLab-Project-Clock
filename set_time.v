@@ -274,6 +274,22 @@ always @(posedge clk or posedge start_set) begin
                             end
                         end
 
+                        else begin
+                            if(day_t == 0)begin
+                                if(day_u >= 9)
+                                    day_u <= 1;
+                                else
+                                    day_u <= day_u + 1; 
+                            end
+
+                            else begin
+                                if(day_u >= 9)
+                                    day_u <= 0;
+                                else
+                                    day_u <= day_u + 1;
+                            end
+                        end
+
                     end
 
                     else if(month_d == 1 || month_d == 3 || month_d == 5 || month_d == 7 || month_d == 8 || month_d == 10 || month_d == 12 )begin //months that have 31 days
@@ -285,10 +301,19 @@ always @(posedge clk or posedge start_set) begin
                         end
 
                         else begin
-                            if(day_u >= 9)
-                                day_u <= 0;
-                            else
-                                day_u <=day_u + 1;     
+                            if(day_t == 0)begin
+                                if(day_u >= 9)
+                                    day_u <= 1;
+                                else
+                                    day_u <=day_u + 1;
+                            end
+                            else begin
+                                if(day_u >= 9)
+                                    day_u <= 0;
+                                else
+                                    day_u <=day_u + 1;
+                            end
+                                 
                         end
 
                     end
@@ -299,10 +324,19 @@ always @(posedge clk or posedge start_set) begin
                         end
 
                         else begin
-                            if(day_u >= 9)
-                                day_u <= 0;
-                            else
-                                day_u <=day_u + 1;     
+                            if(day_u == 0)begin
+                                if(day_u >= 9)
+                                    day_u <= 1;
+                                else
+                                    day_u <=day_u + 1;
+                            end
+                            else begin
+                                if(day_u >= 9)
+                                    day_u <= 0;
+                                else
+                                    day_u <=day_u + 1; 
+                            end
+                                
                         end
                     end
                     

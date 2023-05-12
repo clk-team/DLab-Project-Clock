@@ -411,7 +411,7 @@ always @(posedge clk or posedge start_set) begin
             14:
                 begin
                     if(month_t != 1)begin
-                        if(month_u <= 0)
+                        if(month_u <= 1)
                         month_u <= 9;
                     else
                         month_u <= month_u - 1; 
@@ -461,6 +461,21 @@ always @(posedge clk or posedge start_set) begin
                                     day_u <= day_u - 1;
                             end
                         end
+                        else begin
+                            if(day_t == 0)begin
+                                if(day_u <= 1)
+                                    day_u <= 9;
+                                else
+                                    day_u <= day_u - 1; 
+                            end
+
+                            else begin
+                                if(day_u <= 0)
+                                    day_u <= 9;
+                                else
+                                    day_u <= day_u - 1;
+                            end
+                        end
 
                     end
 
@@ -473,10 +488,20 @@ always @(posedge clk or posedge start_set) begin
                         end
 
                         else begin
-                            if(day_u <= 0)
-                                day_u <= 9;
-                            else
-                                day_u <=day_u - 1;     
+                            if(day_t == 0)begin
+                                if(day_u <= 1)
+                                    day_u <= 9;
+                                else
+                                    day_u <=day_u - 1;
+                            end
+
+                            else begin
+                                if(day_u <= 0)
+                                    day_u <= 9;
+                                else
+                                    day_u <=day_u - 1;
+                            end
+                                 
                         end
 
                     end
@@ -487,10 +512,20 @@ always @(posedge clk or posedge start_set) begin
                         end
 
                         else begin
-                            if(day_u <= 0)
-                                day_u <= 9;
-                            else
-                                day_u <=day_u - 1;     
+                            if(day_t == 0)begin
+                                if(day_u <= 1)
+                                    day_u <= 9;
+                                else
+                                    day_u <=day_u - 1;
+                            end
+
+                            else begin
+                                if(day_u <= 0)
+                                    day_u <= 9;
+                                else
+                                    day_u <=day_u - 1;
+                            end
+                                 
                         end
                     end
                 end

@@ -23,13 +23,13 @@ always @(posedge clk)
     counter <= counter + 1;
     counter2 <= counter2 + 1;
     counter3 <= counter3 + 1;
-    if(counter >= 50_000_000)
+    if(counter > 49_999_999)
     begin
       counter <= 0;
       secclk = ~secclk;
     end
 
-    if(counter2 >= 50_000)
+    if(counter2 > 49_999)
     begin
       counter2 = 0;
       msecclk = ~msecclk;

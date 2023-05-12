@@ -8,7 +8,7 @@ hr_2_10,hr_2_1,min_2_10,min_2_1,sec_2_10,sec_2_1)
     reg [31:0]min_counter=0;
     reg [5:0]min_count=0,hr_count=0;
     reg hr_clk=0,min_clk=0;
-    reg debounce=0;
+    reg debounce=0,up_debounce=0;
     reg go=0;
 
     always@(posedge clk) begin
@@ -20,6 +20,17 @@ hr_2_10,hr_2_1,min_2_10,min_2_1,sec_2_10,sec_2_1)
             debounce <= 0;
         end
     end
+
+    always@(posedge clk) begin
+        if(up && !up_debounce) begin
+            up_debounce <= 1;
+        end
+        else if(!up && debounce) begin
+            debounce <= 0;
+        end
+    end
+
+    
 
     always@(posedge clk) begin
         if(go) begin

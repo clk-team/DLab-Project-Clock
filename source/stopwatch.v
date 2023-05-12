@@ -84,7 +84,7 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
         end
     end
                    
-    always@(posedge milli_clk) begin
+    always@(posedge milli_clk or negedge milli_clk) begin
         if(go) begin
             milli_2_1 <= milli_1 + 1;
             milli_2_10 <= milli_10;
@@ -106,7 +106,7 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
         end
     end
     
-    always@(posedge sec_clk) begin
+    always@(posedge sec_clk or negedge sec_clk) begin
         if(go) begin
             sec_2_1 <= sec_1 + 1;
             sec_2_10 <= sec_10;
@@ -128,7 +128,7 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
      end
      end
      
-     always@(posedge min_clk) begin
+     always@(posedge min_clk or negedge min_clk) begin
         if(go) begin
             min_2_1 <= min_1 + 1;
             min_2_10 <= min_10;

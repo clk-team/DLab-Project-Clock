@@ -89,7 +89,7 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
             milli_2_1 <= milli_1 + 1;
             milli_2_10 <= milli_10;
         end
-        else begin
+        else if(reset) begin
             milli_2_1 <= 0;
             milli_2_10 <= 0;
         end
@@ -111,7 +111,7 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
             sec_2_1 <= sec_1 + 1;
             sec_2_10 <= sec_10;
         end
-        else begin
+        else if(reset) begin
             sec_2_1 <= 0;
             sec_2_10 <= 0;
         end
@@ -133,7 +133,7 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
             min_2_1 <= min_1 + 1;
             min_2_10 <= min_10;
         end
-        else begin
+        else if(reset) begin
             min_2_1 <= 0;
             min_2_10 <= 0;
         end

@@ -53,7 +53,7 @@ reg [5:0]sec_d;
 
 reg [14:0]year_f;
 reg [3:0]month_f;
-
+reg [8:0]week_f = 0;
 
 always @(*) begin
     
@@ -89,9 +89,57 @@ always @(*) begin
         year_f <= year_d ;
         
     end
+    
+    if(year_d > 1582)
+        week = (day_d + 2*month_f + 3*(month_f + 1)/5 + year_f + year_f / 4 - year_f / 100 + year_f / 400 + 1) % 7;
+    else begin
+        if(year_d == 1582)begin
+            if(month_d > 10)
+                week = (day_d + 2*month_f + 3*(month_f + 1)/5 + year_f + year_f / 4 - year_f / 100 + year_f / 400 + 1) % 7;
 
-    week = (day_d + 2*month_f + 3*(month_f + 1)/5 + year_f + year_f / 4 - year_f / 100 + year_f / 400 + 1) % 7;
-   
+            else if(month_d == 10)begin
+
+                if(day_d >= 1 && day_d <= 4)begin //1~4
+                    week_f = year_f%100 + (year_f%100)/4 - year_f/100 + 2*month_f + (3*(month_f + 1)/5) + day_d - 1;
+                    if(week_f[8] == 1)
+                        week_f = ~ week_f + 1;
+
+                    week = week_f % 7; 
+                end
+
+                else if(day_d >= 5 && day_d <= 14)begin//5~14
+                    day_t <= 1;
+                    day_u <= 5;
+                end 
+                    
+                
+                else begin //15~31
+                    week = (day_d + 2*month_f + 3*(month_f + 1)/5 + year_f + year_f / 4 - year_f / 100 + year_f / 400 + 1) % 7;
+                end
+            end
+            else begin
+                week_f = year_f%100 + (year_f%100)/4 - year_f/100 + 2*month_f + (3*(month_f + 1)/5) + day_d - 1;
+                    if(week_f[8] == 1)
+                        week_f = ~ week_f + 1;
+
+                    week = week_f % 7; 
+            end
+        end
+
+        else begin
+            week_f = year_f%100 + (year_f%100)/4 - year_f/100 + 2*month_f + (3*(month_f + 1)/5) + day_d - 1;
+            if(week_f[8] == 1)
+                week_f = ~ week_f + 1;
+
+            week = week_f % 7; 
+        end
+        
+    end
+        
+        
+    if(week == 0)
+        week <= 7;
+
 end
 
 

@@ -1,15 +1,15 @@
 `timescale 1ns / 1ps
 
-module stopwatch(clk,start,reset,min_10,min_1,sec_10,sec_1,milli_10,milli_1,
+module stopwatch(clk,sec_clk,milli_clk,start,reset,min_10,min_1,sec_10,sec_1,milli_10,milli_1,
 min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
 
-    input clk,start,reset;
+    input clk,start,reset,sec_clk,milli_clk;
     input [3:0] min_10,min_1,sec_10,sec_1,milli_10,milli_1;
     output reg[3:0] min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1;
     
     reg [31:0]min_counter=0,sec_counter=0,milli_counter=0;
     reg [5:0]count=0;
-    reg min_clk=0,sec_clk=0,milli_clk=0;
+    reg min_clk=0;
     reg debounce=0;
     reg go=0;
     
@@ -25,43 +25,43 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
     end
     
     
-    always@(posedge clk) begin
-        if(go) begin
-            if(sec_counter > 49_999_999) begin
-                sec_counter <= 1;
-                sec_clk <= ~sec_clk;
-            end
-            else begin
-                sec_counter <= sec_counter + 1;
-            end
-        end
-        else begin
-            sec_counter <= 0;
-            sec_clk <= 0;
-        end
-    end
+    // always@(posedge clk) begin
+    //     if(go) begin
+    //         if(sec_counter > 49_999_999) begin
+    //             sec_counter <= 0;
+    //             sec_clk <= ~sec_clk;
+    //         end
+    //         else begin
+    //             sec_counter <= sec_counter + 1;
+    //         end
+    //     end
+    //     else begin
+    //         sec_counter <= 0;
+    //         sec_clk <= 0;
+    //     end
+    // end
     
-    always@(posedge clk) begin
-        if(go) begin
-            if(milli_counter > 49_999) begin
-                milli_counter <= 1;
-                milli_clk <= ~milli_clk;
-            end
-            else begin
-                milli_counter <= milli_counter + 1;
-            end
-        end
-        else begin
-            milli_counter <= 0;
-            milli_clk <= 0;
-        end
-    end
+    // always@(posedge clk) begin
+    //     if(go) begin
+    //         if(milli_counter > 49_999) begin
+    //             milli_counter <= 0;
+    //             milli_clk <= ~milli_clk;
+    //         end
+    //         else begin
+    //             milli_counter <= milli_counter + 1;
+    //         end
+    //     end
+    //     else begin
+    //         milli_counter <= 0;
+    //         milli_clk <= 0;
+    //     end
+    // end
     
     always@(posedge clk) begin
         if(go) begin
             if(min_counter > 49_999_999) begin
                 count <= count + 1;
-                min_counter <= 1;
+                min_counter <= 0;
             end
             else
                 min_counter <= min_counter + 1;
@@ -75,7 +75,7 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
     always@(posedge clk) begin
         if(go) begin
             if(count > 59) begin
-                count <= 1;
+                count <= 0;
                 min_clk <= ~min_clk;
             end
         end

@@ -138,7 +138,7 @@ always @(*) begin
         
         
     if(week == 0)
-        week <= 7;
+        week = 7;
 
 end
 

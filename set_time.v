@@ -248,9 +248,9 @@ always @(posedge clk or posedge start_set) begin
 
                     else begin
                         if(day_t >= 2)
-                        day_t <= 0;
-                    else
-                        day_t <=day_t + 1; 
+                            day_t <= 0;
+                        else
+                            day_t <=day_t + 1; 
                     end
                     
                 end
@@ -410,27 +410,89 @@ always @(posedge clk or posedge start_set) begin
 
             14:
                 begin
-                    if(month_u <= 0)
+                    if(month_t != 1)begin
+                        if(month_u <= 0)
                         month_u <= 9;
                     else
                         month_u <= month_u - 1; 
+                    end
+
+                    else begin
+                        if(month_u <= 0)
+                            month_u <= 2;
+                        else
+                            month_u <= month_u - 1; 
+                    end 
                 end
 
             /*day*/
             12:
                 begin
-                    if(day_t <= 0)
+                     if(month_d != 2)begin
+                        if(day_t <= 0)
                         day_t <= 3;
                     else
                         day_t <=day_t - 1; 
+                    end
+
+                    else begin
+                        if(day_t <= 0)
+                            day_t <= 2;
+                        else
+                            day_t <=day_t - 1; 
+                    end 
                 end
 
             11:
                 begin
-                    if(day_u <= 0)
-                        day_u <= 9;
-                    else
-                        day_u <=day_u - 1; 
+                    if(month_d == 2)begin // Feb
+                        if(day_t == 2)begin
+                            if(year_d % 400 == 0 || (year_d % 4 == 0 && year_d%100!=0))begin // 閏年
+                                if(day_u <= 0)
+                                    day_u <= 9;  
+                                else
+                                    day_u <= day_u - 1;   
+                            end
+
+                            else begin
+                                if(day_u <= 0)
+                                    day_u <= 8;  
+                                else
+                                    day_u <= day_u - 1;
+                            end
+                        end
+
+                    end
+
+                    else if(month_d == 1 || month_d == 3 || month_d == 5 || month_d == 7 || month_d == 8 || month_d == 10 || month_d == 12 )begin //months that have 31 days
+                        if(day_t == 3)begin
+                            if(day_u <= 0)
+                                day_u <= 1;
+                            else
+                                day_u <= day_u - 1;
+                        end
+
+                        else begin
+                            if(day_u <= 0)
+                                day_u <= 9;
+                            else
+                                day_u <=day_u - 1;     
+                        end
+
+                    end
+
+                    else begin // 30 days
+                        if(day_t == 3)begin
+                            day_u <= 0;
+                        end
+
+                        else begin
+                            if(day_u <= 0)
+                                day_u <= 9;
+                            else
+                                day_u <=day_u - 1;     
+                        end
+                    end
                 end
 
             /*hour*/

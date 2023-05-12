@@ -53,12 +53,11 @@ hr_2_10,hr_2_1,min_2_10,min_2_1,sec_2_10,sec_2_1)
         if(go) begin
             if(hr_count > 59) begin
                 hr_clk <= ~hr_clk;
-                hr_count <= hr_count + 1;
+                hr_count <= 0;
             end
         end
         else begin
             hr_clk <= 0;
-            
         end
     end
 

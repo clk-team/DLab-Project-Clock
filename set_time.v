@@ -249,6 +249,8 @@ always @(posedge clk or posedge start_set) begin
                     else begin
                         if(day_t >= 2)
                             day_t <= 0;
+                        else if(day_t == 3)
+                            day_t <= 2;
                         else
                             day_t <=day_t + 1; 
                     end
@@ -324,7 +326,7 @@ always @(posedge clk or posedge start_set) begin
                         end
 
                         else begin
-                            if(day_u == 0)begin
+                            if(day_t == 0)begin
                                 if(day_u >= 9)
                                     day_u <= 1;
                                 else
@@ -471,6 +473,8 @@ always @(posedge clk or posedge start_set) begin
 
                     else begin
                         if(day_t <= 0)
+                            day_t <= 2;
+                        else if(day_t == 3)
                             day_t <= 2;
                         else
                             day_t <=day_t - 1; 
@@ -620,7 +624,9 @@ always @(posedge clk or posedge start_set) begin
     end
 end
 
-
+always @(posedge clk) begin
+    
+end
 
 
 endmodule //set_time

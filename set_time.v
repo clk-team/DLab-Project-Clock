@@ -211,11 +211,14 @@ always @(posedge clk) begin
 end
 
 always @(posedge clk or posedge start_set) begin
-
-    if(button_up == 1 || button_down == 1)
+    if(start_set == 1)begin
+        if(button_up == 1 || button_down == 1)
         timer2 <= timer2 + 1;
         else
             timer2 <= 0;
+    end
+    else
+        timer2 <= 0;
 
     if(timer2 == 3)begin //2500000
         if(button_up == 1) begin //2 5 8 10 13 16
@@ -248,10 +251,20 @@ always @(posedge clk or posedge start_set) begin
 
             17:
                 begin
-                    if(year_u >= 9)
-                        year_u <= 0;
-                    else
-                        year_u <= year_u + 1; 
+                    if(year_th == 0 && year_h == 0 && year_t == 0 )begin
+                        if(year_u >= 9)
+                            year_u <= 1;
+                        else
+                            year_u <= year_u + 1; 
+                    end
+
+                    else begin
+                        if(year_u >= 9)
+                            year_u <= 0;
+                        else
+                            year_u <= year_u + 1; 
+                    end
+                    
                 end
 
             /*month*/
@@ -477,10 +490,19 @@ always @(posedge clk or posedge start_set) begin
 
             17:
                 begin
-                    if(year_u <= 0)
-                        year_u <= 9;
-                    else
-                        year_u <= year_u - 1; 
+                    if(year_th == 0 && year_h == 0 && year_t == 0)begin
+                        if(year_u <= 1)
+                            year_u <= 9;
+                        else
+                            year_u <= year_u - 1; 
+                    end
+                    else begin
+                        if(year_u <= 0)
+                            year_u <= 9;
+                        else
+                            year_u <= year_u - 1; 
+                    end
+                    
                 end
 
             /*month*/

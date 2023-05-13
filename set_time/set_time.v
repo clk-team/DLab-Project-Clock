@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module set_time (clk, button_mid, button_r, button_l, button_up, button_down, year, month, day, hour, minute, sec, week,mode);
+module set_time (clk, button_mid, button_r, button_l, button_up, button_down, year, month, day, hour, minute, sec, week, mode, set_string);
 
 input clk;
 input button_mid;
@@ -19,7 +19,7 @@ output reg[7:0]sec = 0;
 output reg [3:0]week = 0;
 
 reg start_set = 0;
-reg [83:0] set_string;
+output reg [83:0] set_string;
 reg[4:0] count = 20;
 reg[31:0] timer;
 reg[31:0] timer2;
@@ -694,9 +694,7 @@ always @(posedge clk) begin
     end
 end
 
-always @(posedge clk) begin
-    
-end
+
 
 
 endmodule //set_time

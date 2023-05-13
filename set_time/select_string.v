@@ -1,98 +1,63 @@
 `timescale 1ns/1ps
 
-module selectstring (string, clk, reset, sel, tmp1, clk_o);
+module selectstring (string, clk, tmp1, count, mode);
     
     output  reg[31:0]string;
-    
-    input clk_o;
     input clk;
-    input reset;
-    input sel;
-  
-    input [79:0] tmp1;
-    
-    reg [7:0]counter1 = 159;
-    reg [7:0]counter2 = 128;
-    reg [239:0] tmp;
-
-    
-    always @(posedge clk or posedge reset) begin
-        if(reset == 1)
-            counter1 <= counter1;
-        else if (reset == 0) begin
-            if(sel == 1)begin
-            if(counter1 > 83)begin
-            counter1 <= counter1 - 4;
-
-        end
-        else
-            counter1 <= 159;
-        end
+    input [3:0] mode;
         
-        else begin
-            if(counter1 < 187)begin
-                counter1 <= counter1 + 4;
-            end
-            else
-                counter1 <= 111;
-        end
-        end
-        
-
-    end
-
-    always @(posedge clk or  posedge reset) begin
-        
-        if(reset == 1)
-            counter2 <= counter2;
-
-        else if (reset == 0) begin
-           if (sel == 1) begin
-            if(counter2 > 52)begin
-            counter2 <= counter2 - 4;
-
-        end
-        else
-            counter2 <= 128;
-        end
-        
-        else begin
-            if(counter2 < 156)begin
-                counter2 <= counter2 +4;
-            end
-            else
-                counter2 <= 80;
-        end 
-        end
+    input [4:0]count;
       
+    input [83:0] tmp1;
+    
+    reg [7:0]pointer = 20;
+    reg [4:0]edge_f = 20;
+    reg [4:0]edge_b = 13;
+    
+    reg reset = 0;
+
+    always @(posedge clk) begin
+        if(mode == 0)
+            reset <= 0;
+        else
+            reset <= 1;
     end
 
-    always @(*) begin
-        tmp = {tmp1,tmp1,tmp1};
+    always @(posedge clk ) begin
+
+            if(reset == 1)begin
+                edge_f <= 20;
+                edge_b <= 13;
+            end
+                
+        
+            if(count > edge_f)begin
+                edge_f <= count;
+                edge_b <= count - 7;
+            end
+            else if(count < edge_b) begin
+                edge_b <= count;
+                edge_f <= count + 7; 
+            end
+            else if(count == 20)begin
+                edge_f <= 20;
+                edge_b <= 13;
+            end
+            else if(count == 0)begin
+                edge_b <= 0;
+                edge_f <= 7;
+            end
+         
+        
+        pointer <= edge_f * 4 + 3;
+        
+
     end
 
-    always @(posedge clk or  posedge reset) begin
-       
-        if(reset == 1)begin
-            if(sel == 1)
-                string <= { tmp[counter1-:32]};
-            else
-                string <= { tmp[counter2+:32]};
-        end
-            
-        else if(sel) //left
-        begin
-                      
-            string <= { tmp[counter1-:32]};
-                      
-        end
-        else if(sel == 0) //right
-            begin
-                            
-                string <= { tmp[counter1-:32]};
-                       
-           
-          end
+    always @(posedge clk) begin      
+        
+    string <= { tmp1[pointer-:32]};
+                         
     end
     
 

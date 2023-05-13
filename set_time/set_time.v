@@ -1,6 +1,7 @@
 `timescale 1ns/1ps
 
-module set_time (clk, button_mid, button_r, button_l, button_up, button_down, year, month, day, hour, minute, sec, week, mode, set_string);
+module set_time (clk, button_mid, button_r, button_l, button_up, button_down, year, month, day, hour, minute, 
+sec, week, mode, set_string, count);
 
 input clk;
 input button_mid;
@@ -20,7 +21,7 @@ output reg [3:0]week = 0;
 
 reg start_set = 0;
 output reg [83:0] set_string;
-reg[4:0] count = 20;
+output reg[4:0] count = 20;
 reg[31:0] timer;
 reg[31:0] timer2;
 
@@ -57,7 +58,7 @@ reg [8:0]week_f = 0;
 
 always @(*) begin
     
-   set_string <= {year , 4'd10 , month , 4'd10 , day , 4'd10 , week , 4'd10 , hour , 4'd10 , minute , 4'd10 , sec};
+   set_string <= {year , 4'hb , month , 4'hb , day , 4'hb , week , 4'hb , hour , 4'hb , minute , 4'hb , sec};
  
 end
 

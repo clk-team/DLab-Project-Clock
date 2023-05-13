@@ -21,7 +21,7 @@ reg [7:0]pwm = 0;
 wire [4:0]count_8;
 wire clk_sec;
 
-freq_div fr(clk_o, clk_sec, 1);
+freq_div fr(clk_o, clk_sec, 100);
 selectstring sele(string, clk, tmp1, count, mode, count_8);
 always @(posedge clk)begin
 

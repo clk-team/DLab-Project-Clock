@@ -1,7 +1,6 @@
 `timescale 1ns/1ps
 
-module set_time (clk, button_mid, button_r, button_l, button_up, button_down, year, month, day, hour, minute, 
-sec, week, mode, set_string, count);
+module set_time (clk, button_mid, button_r, button_l, button_up, button_down,  mode, set_string, count);
 
 input clk;
 input button_mid;
@@ -11,19 +10,19 @@ input button_down;
 input button_up;
 input [3:0]mode;
 
-output reg[15:0]year = 16'h2023;
-output reg[7:0]month = 8'h1;
-output reg[7:0]day = 8'h1;
-output reg[7:0]hour = 0;
-output reg[7:0]minute = 0;
-output reg[7:0]sec = 0;
-output reg [3:0]week = 0;
+reg[15:0]year = 16'h2023;
+reg[7:0]month = 8'h1;
+reg[7:0]day = 8'h1;
+reg[7:0]hour = 0;
+reg[7:0]minute = 0;
+reg[7:0]sec = 0;
+reg [3:0]week = 0;
 
 reg start_set = 0;
 output reg [83:0] set_string;
 output reg[4:0] count = 20;
-reg[25:0] timer;
-reg[25:0] timer2;
+reg[31:0] timer;
+reg[31:0] timer2;
 
 reg [3:0]year_th = 2;
 reg [3:0]year_h = 0;
@@ -63,7 +62,7 @@ always @(*) begin
 end
 
 
-always @(*) begin
+always @(posedge clk) begin
     year <= {year_th , year_h , year_t , year_u};
     month <= {month_t , month_u};
     day <= {day_t , day_u};
@@ -140,78 +139,6 @@ always @(*) begin
         
     if(week == 0)
         week = 7;
-
-end
-
-
-always @(mode) begin
-    if(mode == 0)
-        start_set <= 1;
-    
-    else
-        start_set <= 0;
-end
-
-always @(posedge clk) begin
-    if(start_set == 1)begin
-
-    if(button_l == 1 || button_r == 1)
-        timer <= timer + 1;
-        else
-            timer <= 0;
-
-    if(timer == 2500000)begin    //2500000
-        if(button_l == 1) begin
-
-            if(count >= 20)
-                count <= 0;
-            else if(count == 1)
-                count <= 3;
-            else if(count == 4 )
-                count <= 6;
-            else if(count == 7)
-                count <= 9;
-            else if(count == 9)
-                count <= 11;
-            else if(count == 12)
-                count <= 14;
-            else if(count == 15)
-                count <= 17;
-            else
-                count <= count + 1;
-
-            // if(count == 4 || count == 7 || count == 10 || count == 12 || count == 15 || count == 18) //2 5 8 10 13 16
-            //     count <= count + 1;
-
-        end
-        else if(button_r == 1)begin
-
-            if(count <= 0)
-                count <= 20;
-            else if(count == 3)
-                count <= 1;
-            else if(count == 6 )
-                count <= 4;
-            else if(count == 9)
-                count <= 7;
-            else if(count == 11)
-                count <= 9;
-            else if(count == 14)
-                count <= 12;
-            else if(count == 17)
-                count <= 15;
-            else
-                count <= count - 1;
-
-            // if(count == 4 || count == 7 || count == 10 || count == 12 || count == 15 || count == 18) //4 7 10 12 15 18
-            //     count <= count - 1;
-        end
-    
-    end
-    end
-end
-
-always @(posedge clk) begin
     if(start_set == 1)begin
         if(button_up == 1 || button_down == 1)
         timer2 <= timer2 + 1;
@@ -417,11 +344,20 @@ always @(posedge clk) begin
 
             6:
                 begin
-                    if(hour_u >= 9)
-                        hour_u <= 0;
-                    else
-                        hour_u <=hour_u + 1; 
+                    if(hour_t == 2)begin
+                        if(hour_u >= 3)
+                            hour_u <= 0;
+                        else
+                            hour_u <=hour_u + 1;
+                    end
+                    else begin
+                        if(hour_u >= 9)
+                            hour_u <= 0;
+                        else
+                            hour_u <=hour_u + 1; 
                 end
+                    end
+                    
 
             /*minute*/
             4:
@@ -616,7 +552,7 @@ always @(posedge clk) begin
                     end
 
                     else begin // 30 days
-                        if(day_t == 3)begin
+                        if(day_t >= 3)begin
                             day_u <= 0;
                         end
 
@@ -643,17 +579,27 @@ always @(posedge clk) begin
             7:
                 begin
                     if(hour_t <= 0)
-                        hour_t <= 5;
+                        hour_t <= 2;
                     else
                         hour_t <=hour_t - 1; 
                 end
 
             6:
                 begin
-                    if(hour_u <= 0)
-                        hour_u <= 9;
-                    else
-                        hour_u <=hour_u - 1; 
+                    if(hour_t == 2)begin
+                        if(hour_u <= 0)
+                            hour_u <= 3;
+                        else
+                            hour_u <=hour_u - 1;
+                    end
+                    else begin
+                        if(hour_u <= 0)
+                            hour_u <= 9;
+                        else
+                            hour_u <=hour_u - 1;
+                    end
+                     
+
                 end
 
             /*minute*/
@@ -693,7 +639,129 @@ always @(posedge clk) begin
         end
     
     end
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+if(month_t == 1 && month_u > 2)begin
+    month_t <=1;
+    month_u <= 2;
 end
+
+if(month_t == 0 && month_u == 0)begin
+    month_t <=0;
+    month_u <= 1;
+end
+ 
+if(month_d == 2)begin
+    if(year_d % 400 == 0 || (year_d % 4 == 0 && year_d%100!=0))begin
+        if((day_t == 2 && day_u > 9) || day_t == 3)begin
+            day_t <= 2;
+            day_u <= 9;
+        end
+    end
+
+    else begin
+        if((day_t == 2 && day_u > 8) || day_t == 3)begin
+            day_t <= 2;
+            day_u <= 8;
+        end
+    end
+end
+else if(month_d == 1 || month_d == 3 || month_d == 5 || month_d == 7 || month_d == 8 || month_d == 10 || month_d == 12)begin
+    if(day_t == 3 && day_u > 1)begin
+        day_t <= 3;
+        day_u <= 1; 
+    end
+        
+end
+else begin
+    if(day_t == 3 && day_u > 0)begin
+        day_t <= 3;
+        day_u <= 0;
+    end
+         
+    
+end
+
+if(day_t == 0 && day_u == 0)begin
+    day_t <= 0;
+    day_u <= 1;
+end
+
+if(hour_t == 2 && hour_u > 3)begin
+    hour_t <= 2;
+    hour_u <= 3;
+end
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+end
+
+
+always @(mode) begin
+    if(mode == 0)
+        start_set <= 1;
+    
+    else
+        start_set <= 0;
+end
+
+always @(posedge clk) begin
+    if(start_set == 1)begin
+
+    if(button_l == 1 || button_r == 1)
+        timer <= timer + 1;
+        else
+            timer <= 0;
+
+    if(timer == 2500000)begin    //2500000
+        if(button_l == 1) begin
+
+            if(count >= 20)
+                count <= 0;
+            else if(count == 1)
+                count <= 3;
+            else if(count == 4 )
+                count <= 6;
+            else if(count == 7)
+                count <= 9;
+            else if(count == 9)
+                count <= 11;
+            else if(count == 12)
+                count <= 14;
+            else if(count == 15)
+                count <= 17;
+            else
+                count <= count + 1;
+
+            // if(count == 4 || count == 7 || count == 10 || count == 12 || count == 15 || count == 18) //2 5 8 10 13 16
+            //     count <= count + 1;
+
+        end
+        else if(button_r == 1)begin
+
+            if(count <= 0)
+                count <= 20;
+            else if(count == 3)
+                count <= 1;
+            else if(count == 6 )
+                count <= 4;
+            else if(count == 9)
+                count <= 7;
+            else if(count == 11)
+                count <= 9;
+            else if(count == 14)
+                count <= 12;
+            else if(count == 17)
+                count <= 15;
+            else
+                count <= count - 1;
+
+            // if(count == 4 || count == 7 || count == 10 || count == 12 || count == 15 || count == 18) //4 7 10 12 15 18
+            //     count <= count - 1;
+        end
+    
+    end
+    end
+end
+
+
 
 
 

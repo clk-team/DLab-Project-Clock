@@ -31,15 +31,17 @@ module selectstring (string, clk, tmp1, count, mode, count_8);
                 edge_b <= 13;
             end
                 
-        
-            if(count > edge_f)begin
-                edge_f <= count;
-                edge_b <= count - 7;
+            if(count !=20 && count != 0)begin
+                if(count > edge_f)begin
+                    edge_f <= count;
+                    edge_b <= count - 7;
+                end
+                else if(count < edge_b) begin
+                    edge_b <= count;
+                    edge_f <= count + 7; 
+                end
             end
-            else if(count < edge_b) begin
-                edge_b <= count;
-                edge_f <= count + 7; 
-            end
+            
             else if(count == 20)begin
                 edge_f <= 20;
                 edge_b <= 13;
@@ -56,8 +58,13 @@ module selectstring (string, clk, tmp1, count, mode, count_8);
     end
     
     always @(posedge clk) begin
-        if(count >= edge_b)
+        if(count == 20)
+            count_8 <= 7;
+        else begin
+            if(count >= edge_b)
             count_8 <= count - edge_b;
+        end
+        
     end
 
     always @(posedge clk) begin      

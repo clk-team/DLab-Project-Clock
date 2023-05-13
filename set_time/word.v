@@ -1,22 +1,26 @@
 `timescale 1ns/1ps
-module words (sc, clk,reset, sel, tmp1, clk_o);
+module words (sc, clk, tmp1, mode, count);
 
-input clk_o;
-input reset;
+
 input clk;
-input sel;
+input [3:0]mode;
+input [83:0]tmp1;
+input [4:0]count;
+
 output reg [3:0]sc;
+
 wire [31:0]string;
 reg [3:0] se [0:7];
-reg  [3:0]counter;
+reg  [3:0]counter = 0;
 wire clk2;
-input [79:0]tmp1;
 
-reg pwm = 0;
+
+reg [7:0]pwm = 0;
 
 wire [4:0]count_8;
 
-frequency_dividerslow div(clk, clk2);
+
+//frq_d fr(clk_o, clk_05, 2);
 selectstring sele(string, clk, tmp1, count, mode, count_8);
 always @(posedge clk)begin
 
@@ -30,7 +34,7 @@ always @(posedge clk)begin
  se[0] <= (count_8 == 0) ? ((pwm <= 50) ? string[3:0] : 4'ha): string[3:0];   
 end
 
-always @(posedge clk2) begin
+always @(posedge clk) begin
     if(pwm >=100)
         pwm <= 0;
     else

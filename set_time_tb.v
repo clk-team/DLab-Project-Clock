@@ -21,8 +21,9 @@ wire [3:0]week ;
 wire [31:0]string;
 wire[83:0]set_string;
 wire [4:0]count;
+wire [3:0]sc;
 set_time sss(clk, button_mid, button_r, button_l, button_up, button_down, year, month, day, hour, minute, sec, week, mode, set_string, count);
-selectstring sel(string, clk, set_string, count, mode);
+words w(sc, clk, set_string, mode, count);
 
 initial begin
     mode = 0;

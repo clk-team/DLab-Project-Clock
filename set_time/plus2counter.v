@@ -2,7 +2,7 @@
 
 module plus2counter (
     input clk,
-    input reset,
+    
     output reg [7:0]q = 8'b1111_1110
 );
 

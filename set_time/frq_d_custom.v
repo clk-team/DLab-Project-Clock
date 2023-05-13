@@ -1,6 +1,6 @@
 module freq_div(clk, clk_1, fre);  //clk嚗撓??????   clk_1: 頛詨????
     input clk;
-    input fre;
+    input [25:0]fre;
     
     output clk_1;
     reg[26:0] counter=0;  //摰儔閮?,??閮?????25000000嚗?閬25雿??嚗?

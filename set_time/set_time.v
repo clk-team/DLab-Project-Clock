@@ -22,8 +22,8 @@ output reg [3:0]week = 0;
 reg start_set = 0;
 output reg [83:0] set_string;
 output reg[4:0] count = 20;
-reg[31:0] timer;
-reg[31:0] timer2;
+reg[25:0] timer;
+reg[25:0] timer2;
 
 reg [3:0]year_th = 2;
 reg [3:0]year_h = 0;
@@ -160,7 +160,7 @@ always @(posedge clk) begin
         else
             timer <= 0;
 
-    if(timer == 3)begin    //2500000
+    if(timer == 2500000)begin    //2500000
         if(button_l == 1) begin
 
             if(count >= 20)
@@ -221,7 +221,7 @@ always @(posedge clk) begin
     else
         timer2 <= 0;
 
-    if(timer2 == 3)begin //2500000
+    if(timer2 == 2500000)begin //2500000
         if(button_up == 1) begin //2 5 8 10 13 16
 
             case (count)

@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module selectstring (string, clk, tmp1, count, mode);
+module selectstring (string, clk, tmp1, count, mode, count_8);
     
     output  reg[31:0]string;
     input clk;
@@ -15,6 +15,7 @@ module selectstring (string, clk, tmp1, count, mode);
     reg [4:0]edge_b = 13;
     
     reg reset = 0;
+    output reg [4:0]count_8;
 
     always @(posedge clk) begin
         if(mode == 0)
@@ -50,13 +51,19 @@ module selectstring (string, clk, tmp1, count, mode);
          
         
         pointer <= edge_f * 4 + 3;
-        
+         
 
+    end
+    
+    always @(posedge clk) begin
+        if(count >= edge_b)
+            count_8 <= count - edge_b;
     end
 
     always @(posedge clk) begin      
         
     string <= { tmp1[pointer-:32]};
+    
                          
     end
     

@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+
 
 module stopwatch(clk,sec_clk,milli_clk,start,reset,min_10,min_1,sec_10,sec_1,milli_10,milli_1,
 min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);

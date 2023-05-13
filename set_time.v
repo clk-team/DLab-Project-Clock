@@ -210,7 +210,7 @@ always @(posedge clk) begin
     end
 end
 
-always @(posedge clk or posedge start_set) begin
+always @(posedge clk) begin
     if(start_set == 1)begin
         if(button_up == 1 || button_down == 1)
         timer2 <= timer2 + 1;

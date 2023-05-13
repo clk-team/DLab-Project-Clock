@@ -36,11 +36,11 @@ module mode_selection(clk,sel,up,down,rel,modify);
           if(up && !debounce) begin
             case(cur_state)
                 IDLE: begin
-                    if(cur_state_1 != S7 && !debounce_modi) begin //透過先前記下的cur_state_1來改變(排除mode 0情況)
+                    if(cur_state_1 != S7) begin //透過先前記下的cur_state_1來改變(排除mode 0情況)
                         debounce <= 1;
                         rel <= cur_state_1 + 1;
                     end
-                    else if(!debounce_modi)begin
+                    else begin
                         debounce <= 1;
                         rel <= S1;
                     end
@@ -48,23 +48,22 @@ module mode_selection(clk,sel,up,down,rel,modify);
            endcase
            end
            else if(down && !debounce) begin //透過先前記下的cur_state_1來改變(排除mode 0情況)
-            case(cur_state)
+           case(cur_state)
                 IDLE: begin
-                    if(cur_state_1 != S1 && !debounce_modi) begin
+                    if(cur_state_1 != S1) begin
                         debounce <= 1;
                         rel <= cur_state_1 - 1;
                     end
-                    else if(!debounce_modi)begin
+                    else begin
                         debounce <= 1;
                         rel <= S7;
                     end
                 end
            endcase
            end
-           else if(!up && !down && !debounce_modi)begin //沒輸入時IDLE,將這時的輸入記下，以便下次up or down更改時利用
+           else if(!up && !down)begin //沒輸入時IDLE,將這時的輸入記下，以便下次up or down更改時利用
                cur_state <= IDLE;
                rel <= sel;
-               debounce <= 0;
                cur_state_1 <= sel;
            end
        end

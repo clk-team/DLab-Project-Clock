@@ -27,7 +27,7 @@ divider aaa(clk, secclk, msecclk, newclk);  //秒、毫秒
 reg [3:0]sel; // 當前模式
 wire [3:0]rel; //下個clk的模式
 
-reg[5:0] music//拿蘭傳音符
+reg[5:0] music;//拿蘭傳音符
 always @(posedge newclk)
 begin
     light <= light + 1;

@@ -1,7 +1,9 @@
+`timescale 1ns/1ps
+
 module divider(
     input clk,
     output reg secclk,
-    output reg msecclk,
+    output reg msecclk,  //musicclk
     output reg newclk
 );
 
@@ -29,9 +31,9 @@ always @(posedge clk)
       secclk = ~secclk;
     end
 
-    if(counter2 > 49_999)
+    if(counter2 > 1_999_999)
     begin
-      counter2 = 0;
+      counter2 <= 0;
       msecclk = ~msecclk;
     end
     newclk = counter3[13];

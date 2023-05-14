@@ -47,7 +47,7 @@ module(clk, up, down, left, right, seg, show, sound)
 **set_time(晚點添加輸出時間)**
 
 ```verilog
-module set_time (clk, button_mid, button_r, button_l, button_up, button_down,  mode, set_string, count);
+module set_time (clk, button_mid, button_r, button_l, button_up, button_down,  mode, set_string, count); //調整時間模塊
 
 input clk;
 input button_mid; //中間按鈕
@@ -61,7 +61,7 @@ output reg [83:0] set_string; //輸出調整過後時間訊息
 output reg[4:0] count = 20;   //選擇第幾個要更改的參數
 ```
 ```verilog
-module display (clk, chs,oout, sel, button_mid, button_r, button_l, button_up, button_down, mode); //調整時間模塊
+module display (clk, chs,oout, sel, button_mid, button_r, button_l, button_up, button_down, mode); //顯示模塊
 
 output [7:0]chs ; //選擇7段顯示要哪個亮
 output [7:0]oout; //輸出decoder輸出的字形

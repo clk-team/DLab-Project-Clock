@@ -18,7 +18,7 @@ wire [3:0]last;
 wire clk2;
 wire [79:0] nowtime;
 wire [83:0]set_string;
-wire [3:0] count;
+wire [4:0] count;
 
 
 

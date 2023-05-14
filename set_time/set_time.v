@@ -690,6 +690,20 @@ if(hour_t == 2 && hour_u > 3)begin
     hour_t <= 2;
     hour_u <= 3;
 end
+
+if(year_th == 0 && year_h == 0 && year_t == 0 && year_u == 0)begin
+    year_th <= 0;
+    year_h <= 0;
+    year_t <= 0;
+    year_u <= 1;
+end
+
+if(year_d == 1582 && month_d == 10)begin
+    if(day_d >4 && day_d < 15)begin
+        day_t <= 1;
+        day_u <= 5;
+    end
+end
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 end
 

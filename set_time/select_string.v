@@ -58,12 +58,10 @@ module selectstring (string, clk, tmp1, count, mode, count_8);
     end
     
     always @(posedge clk) begin
-        if(count == 20)
-            count_8 <= 7;
-        else begin
+       
             if(count >= edge_b)
             count_8 <= count - edge_b;
-        end
+       
         
     end
 

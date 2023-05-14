@@ -44,6 +44,33 @@ module(clk, up, down, left, right, seg, show, sound)
     output show[7:0];  //七段顯示器的電晶體
     output sound; //聲音
 ```
+**set_time(晚點添加輸出時間)**
 
+```verilog
+module set_time (clk, button_mid, button_r, button_l, button_up, button_down,  mode, set_string, count); //調整時間模塊
 
-    
+input clk;
+input button_mid; //中間按鈕
+input button_l;   //左邊按鈕
+input button_r;   //右邊按鈕
+input button_down;//下按鈕
+input button_up;  //上按鈕
+input [3:0]mode;  //模式輸入
+
+output reg [83:0] set_string; //輸出調整過後時間訊息
+output reg[4:0] count = 20;   //選擇第幾個要更改的參數
+```
+```verilog
+module display (clk, chs,oout, sel, button_mid, button_r, button_l, button_up, button_down, mode); //顯示模塊
+
+output [7:0]chs ; //選擇7段顯示要哪個亮
+output [7:0]oout; //輸出decoder輸出的字形
+
+input clk;
+input button_mid;
+input button_l;
+input button_r;
+input button_down;
+input button_up;
+input [3:0]mode;
+```   

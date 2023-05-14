@@ -1,18 +1,55 @@
 `timescale 1ns / 1ps
 
-module stopwatch(clk,sec_clk,milli_clk,start,reset,min_10,min_1,sec_10,sec_1,milli_10,milli_1,
-min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
+module stopwatch(clk,start,reset,quick,min_10,min_1,sec_10,sec_1,milli_10,milli_1);
 
-    input clk,start,reset,sec_clk,milli_clk;
-    input [3:0] min_10,min_1,sec_10,sec_1,milli_10,milli_1;
-    output reg[3:0] min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1;
+    input clk,start,reset,quick;
+    output reg[3:0] min_10,min_1,sec_10,sec_1,milli_10,milli_1;
     
-    reg [31:0]min_counter=0,sec_counter=0,milli_counter=0;
+    reg [31:0]counter=0;
     reg [5:0]count=0;
     reg min_clk=0;
     reg debounce=0;
     reg go=0;
+    reg millic=0,sc=0,mc=0;
+    reg [5:0] sec=0;
+    reg [5:0] min=0;
+    reg [5:0] milli=0;
+    reg milli_clk=0;
+    integer i;
     
+    always@(posedge clk) begin
+        if(reset) begin
+            min   <= 0;
+            sec   <= 0;
+            milli <= 0;
+            go    <= 0;
+        end
+    end
+    
+     always@(posedge clk) begin
+        if(go==0)    begin
+            counter <= counter;
+        end
+        else if(go==1)   begin
+            if(quick==0)  begin
+                if(counter == 49999) begin //slow counting
+                    counter <= 0;
+                    milli_clk <= ~ milli_clk;
+                end
+                else
+                    counter <= counter + 1'b1;
+            end
+            else begin
+                if(counter == 1) begin //fast counting
+                    counter <= 0;
+                    milli_clk <= ~milli_clk;
+                end
+                else
+                    counter <= counter + 1'b1;
+            end
+        end
+    end      
+        
     
     always@(posedge clk) begin
         if(start && !debounce) begin
@@ -24,129 +61,87 @@ min_2_10,min_2_1,sec_2_10,sec_2_1,milli_2_10,milli_2_1);
         end
     end
     
+    always@(posedge milli_clk) begin
+        if(milli > 59) begin
+            milli <= 0;
+            millic <= 1;
+        end
+        else  begin
+            milli <= milli + 1;
+            millic <= 0;
+        end
+    end
     
-    // always@(posedge clk) begin
-    //     if(go) begin
-    //         if(sec_counter > 49_999_999) begin
-    //             sec_counter <= 0;
-    //             sec_clk <= ~sec_clk;
-    //         end
-    //         else begin
-    //             sec_counter <= sec_counter + 1;
-    //         end
-    //     end
-    //     else begin
-    //         sec_counter <= 0;
-    //         sec_clk <= 0;
-    //     end
-    // end
-    
-    // always@(posedge clk) begin
-    //     if(go) begin
-    //         if(milli_counter > 49_999) begin
-    //             milli_counter <= 0;
-    //             milli_clk <= ~milli_clk;
-    //         end
-    //         else begin
-    //             milli_counter <= milli_counter + 1;
-    //         end
-    //     end
-    //     else begin
-    //         milli_counter <= 0;
-    //         milli_clk <= 0;
-    //     end
-    // end
-    
-    always@(posedge clk) begin
-        if(go) begin
-            if(min_counter > 49_999_999) begin
-                count <= count + 1;
-                min_counter <= 0;
-            end
-            else
-                min_counter <= min_counter + 1;
+    always @(posedge millic) begin
+        if(sec > 59) begin
+            sec <= 0;
+            sc <= 1;
         end
         else begin
-            min_counter <= 0;
-            count <= 0;
+            sec <= sec + 1;
+            sc <= 0;
         end
     end
     
-    always@(posedge clk) begin
-        if(go) begin
-            if(count > 59) begin
-                count <= 0;
-                min_clk <= ~min_clk;
-            end
-        end
-        else begin
-            min_clk <= 0;
-        end
-    end
-                   
-    always@(posedge milli_clk or negedge milli_clk) begin
-        if(go) begin
-            milli_2_1 <= milli_1 + 1;
-            milli_2_10 <= milli_10;
-        end
-        else if(reset) begin
-            milli_2_1 <= 0;
-            milli_2_10 <= 0;
-        end
+    always @(posedge sc) begin
+            min <= min + 1;
     end
     
-    always@(posedge clk) begin
-        if(go) begin
-            if(milli_2_1 > 9) begin
-                milli_2_1 <= 0;
-                milli_2_10 <= milli_2_10 + 1;
-            end
-            if(milli_2_10 > 9)
-                milli_2_10 <= 0;
-        end
+    always@(milli) begin
+        milli_1  = 4'd0;
+        milli_10 = 4'd0;
+    
+    for(i = 5 ; i >= 0 ; i = i - 1) begin
+    
+        if(milli_1 >= 5)
+           milli_1 = milli_1 + 3;
+        if(milli_10 >= 5)
+            milli_10 = milli_10 +3;
+            
+        milli_10 = milli_10 << 1;
+        milli_10[0] = milli_1[3];
+        
+        milli_1 = milli_1 << 1;
+        milli_1[0] = milli[i];
+    end
     end
     
-    always@(posedge sec_clk or negedge sec_clk) begin
-        if(go) begin
-            sec_2_1 <= sec_1 + 1;
-            sec_2_10 <= sec_10;
-        end
-        else if(reset) begin
-            sec_2_1 <= 0;
-            sec_2_10 <= 0;
-        end
-    end
-     
-     always@(posedge clk) begin
-     if(go) begin
-        if(sec_2_1 > 9) begin
-            sec_2_1 <= 0;
-            sec_2_10 <= sec_2_10 + 1;
-        end
-        if(sec_2_10 > 5)
-            sec_2_10 <= 0;
-     end
-     end
-     
-     always@(posedge min_clk or negedge min_clk) begin
-        if(go) begin
-            min_2_1 <= min_1 + 1;
-            min_2_10 <= min_10;
-        end
-        else if(reset) begin
-            min_2_1 <= 0;
-            min_2_10 <= 0;
-        end
-    end
-     
-     always@(posedge clk) begin
-     if(go) begin
-        if(min_2_1 > 9) begin
-            min_2_1 <= 0;
-            min_2_10 <= min_2_10 + 1;
-        end
-        if(min_2_10 > 5)
-            min_2_10 <= 0;
+    always@(sec) begin
+        sec_1  = 4'd0;
+        sec_10 = 4'd0;
+    
+    for(i = 5 ; i >= 0 ; i = i - 1) begin
+    
+        if(sec_1 >= 5)
+           sec_1 = sec_1 + 3;
+        if(sec_10 >= 5)
+            sec_10 = sec_10 +3;
+            
+        sec_10 = sec_10 << 1;
+        sec_10[0] = sec_1[3];
+        
+        sec_1 = sec_1 << 1;
+        sec_1[0] = sec[i];
     end
     end
+    
+    always@(min) begin
+        min_1  = 4'd0;
+        min_10 = 4'd0;
+    
+    for(i = 5 ; i >= 0 ; i = i - 1) begin
+    
+        if(min_1 >= 5)
+           min_1 = min_1 + 3;
+        if(min_10 >= 5)
+            min_10 = min_10 +3;
+            
+        min_10 = min_10 << 1;
+        min_10[0] = min_1[3];
+        
+        min_1 = min_1 << 1;
+        min_1[0] = min[i];
+    end
+    end
+    
 endmodule

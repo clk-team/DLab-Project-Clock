@@ -1,4 +1,3 @@
-
 module alarm(
     input newclk,
     input mode,
@@ -11,18 +10,15 @@ module alarm(
     input [10:0]second, 
     input middle,
     output reg[2:0]alarm_mode,
-    output reg [10:0]temp_hour;
-    output reg [10:0]temp_minute;
-    output reg [10:0]temp_second;
+    output reg [10:0]temp_hour,
+    output reg [10:0]temp_minute,
+    output reg [10:0]temp_second,
     output reg do
     );
 
     reg temp;
     reg stop = 0;
     reg [20:0]count = 0;
-
-  
-    reg open_do;
 
   initial begin
     temp = 0;  //開放編譯
@@ -31,7 +27,7 @@ module alarm(
     alarm_mode = 0;
   end
 
-always @(posedege newclk)
+always @(posedge newclk)
 begin
   if(temp == 0 && middle == 1 && alarm_mode == 0)//開啟轉換狀態
   begin
@@ -102,7 +98,7 @@ begin
   
   if(alarm_mode == 0 && temp_hour == hour && temp_minute == minute && temp_second == second)
     begin
-      go = 1; //開始放歌
+      do = 1; //開始放歌
     end
 
   end

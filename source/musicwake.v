@@ -1,5 +1,8 @@
+`timescale 1ns/1ps
+
 module musicwake(
    input do,
+   input clk,
    input newclk,
    input msecclk,
    output reg [5:0]music
@@ -10,8 +13,8 @@ reg [10:0]song;
 reg allow;//開放放歌
 
 initial begin
-  music = 63;
   tempclk = 0;
+  //music = 0;
   song = 0;
 end
 
@@ -20,11 +23,11 @@ always @(posedge msecclk)
    tempclk <= tempclk + 1;
   end
 
-always @(do) begin
+always @(tempclk) begin
  if(do == 0)
   begin
-    song = 0;
-    music = 1;
+    //song = 0;
+    //music = 1;
     allow = 0;
   end
 
@@ -46,7 +49,7 @@ end
      song <= 0;
  end
  
- always @(song)
+ always @(tempclk[2])
    begin
      case(song)
        0 : music = 63;
@@ -119,7 +122,7 @@ end
        60 : music = 17;
        61 : music = 19;
        62 : music = 17;
-       63 : music = 25;
+       63 : music = 15;
        64 : music = 17;
 
        65 : music = 19;
@@ -192,16 +195,17 @@ end
        125 : music = 20;
        126 : music = 19;
        127 : music = 17;
-       128 : music = 15;
+       128 : music = 17;
 
-       129 : music = 63;
-       130 : music = 63;
+       129 : music = 15;
+       130 : music = 15;
        131 : music = 63;
        132 : music = 63;
        133 : music = 63;
        134 : music = 63;
        135 : music = 63;
        136 : music = 63;
+       default : music = 63;
      endcase
    end
 endmodule

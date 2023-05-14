@@ -8,13 +8,31 @@ module basic_clk(
     input [10:0]minute, 
     input [10:0]second, 
     input [10:0]week,
+    input alarm_mode,
+    input temp_hour,
+    input temp_minute,
+    input temp_second,
     output reg [10:0]num
 );
 
 
 always @(light)
 begin
-if(mode == 1)
+if(mode == 3 && alarm_mode != 0)
+begin
+     case(light)
+        0 : num = temp_hour / 10;
+        1 : num = temp_hour - 10 * (temp_hour/10);
+        2 : num = temp_minute / 10;
+        3 : num = temp_minute - 10 * (temp_minute / 10);
+        4 : num = temp_second / 10;
+        5 : num = temp_second - 10 * (temp_second / 10);
+        6 : num = 11;
+        7 : num = 11;
+    endcase
+end
+
+if(mode == 1 || (mode == 3 && alarm_mode == 0))
   begin 
       case(light)
         0 : num = hour / 10;

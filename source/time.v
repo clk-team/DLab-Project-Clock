@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module current_time(
     input secclk,
     output reg [15:0]year, 
@@ -42,7 +44,7 @@ begin
         week = week + 1;
       end
 
-    if(week == 8)
+    if(week == 😎
       begin
         week <= 1;
       end

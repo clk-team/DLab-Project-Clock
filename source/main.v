@@ -1,5 +1,6 @@
 module main(
     input clk,
+    input switch,  //鬧鐘的勿擾
     input up,
     input down,
     input left,
@@ -27,6 +28,11 @@ divider aaa(clk, secclk, msecclk, newclk);  //秒、毫秒
 reg [3:0]sel; // 當前模式
 wire [3:0]rel; //下個clk的模式
 
+//鬧鐘
+wire [10:0]temp_hour;
+wire[10:0] temp_minute;
+wire[10:0]temp_second;
+
 wire[5:0] music;//拿蘭傳音符
 always @(posedge newclk)
 begin
@@ -39,10 +45,11 @@ end
 
 current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動(mode 0)                    //檢查完成
 mode_selection mode_sel(clk,sel,up,down,rel,middle);
-basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, num); //基本時間(mode 1) 時:分:秒    //檢查完成
+basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num); //基本時間(mode 1) 時:分:秒    //檢查完成
 seven_seg eee(num, seg);//七段顯示器(數字轉換)                                                                //檢查完成
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示器(電晶體)
-alarm fff(newclk, mode, up, down, left, right, hour, minute, second, middle, alarm_mode,temp_hour, temp_minute, temp_second, do); //鬧鐘(mode 3)
+alarm fff(switch, newclk, mode, up, down, left, right, hour, minute, second, middle, alarm_mode,temp_hour, temp_minute, temp_second, do); //鬧鐘(mode 3)
+
 musicwake ggg(do, music);  //啟動音樂(樂譜)
 music hhh( clk, music, sound);  //聲音轉換(sound為輸出)
 

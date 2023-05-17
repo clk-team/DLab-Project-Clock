@@ -142,6 +142,7 @@ begin
      begin
         month <= 1;
         day <= 1;
+        year <= year + 1;
      end
 
      if(month == 1 || month == 2)begin

@@ -13,8 +13,9 @@ module main(
    input  [5:0]sec_d,
    input  [3:0]week_s,
    input  [3:0]mode, 
-    output [7:0]seg,  //ä¸ƒæ®µé¡¯ç¤º?™¨
-    output [7:0]show  //ä¸ƒæ®µé¡¯ç¤º?™¨??„é›»?™¶é«?
+    output [7:0]seg,  //ä¸ƒæ®µé¡¯ç¤º?ï¿½ï¿½
+    output [7:0]show,  //ä¸ƒæ®µé¡¯ç¤º?ï¿½ï¿½??ï¿½é›»?ï¿½ï¿½ï¿½?
+    output dot = 1
     
 );
 wire [15:0]year;
@@ -23,13 +24,13 @@ wire [10:0]day;
 wire[10:0]hour; 
 wire [10:0]minute; 
 wire [10:0]second; 
-wire [10:0]week;  //å¹´ã?æ?ˆã?æ—¥?æ?‚ã?å?†ã?ç?’ã?æ?Ÿæ??
-wire newclk;  //?™¤? »
-wire secclk, msecclk;  //ç§’ã?æ¯«ç§?
+wire [10:0]week;  //å¹´ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½æ—¥?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½??
+wire newclk;  //?ï¿½ï¿½?ï¿½ï¿½
+wire secclk, msecclk;  //ç§’ï¿½?ï¿½æ¯«ï¿½?
 wire [10:0]num;  
-reg [2:0]light = 0; //?›»?™¶é«?
+reg [2:0]light = 0; //?ï¿½ï¿½?ï¿½ï¿½ï¿½?
 
-divider aaa(clk, secclk, msecclk, newclk);  //ç§’ã?æ¯«ç§?
+divider aaa(clk, secclk, msecclk, newclk);  //ç§’ï¿½?ï¿½æ¯«ï¿½?
 
 always @(posedge newclk)
 begin
@@ -54,12 +55,13 @@ current_time ttt(
    .hour(hour), 
    .minute(minute), 
    .second(second), 
-   .week(week)
+   .week(week),
+   .dot(dot)
 );                    
 
-basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num); //?Ÿº?œ¬??‚é??(mode 1) ???:???:ç§?    //æª¢æŸ¥å®Œæ??
-seven_seg eee(num, seg);//ä¸ƒæ®µé¡¯ç¤º?™¨(?•¸å­—è?‰æ??)                                                                //æª¢æŸ¥å®Œæ??
-shower ccc(light, newclk, msecclk, alarm_mode, show);//ä¸ƒæ®µé¡¯ç¤º?™¨(?›»?™¶é«?)
+basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num); //?ï¿½ï¿½?ï¿½ï¿½??ï¿½ï¿½??(mode 1) ???:???:ï¿½?    //æª¢æŸ¥å®Œï¿½??
+seven_seg eee(num, seg);//ä¸ƒæ®µé¡¯ç¤º?ï¿½ï¿½(?ï¿½ï¿½å­—ï¿½?ï¿½ï¿½??)                                                                //æª¢æŸ¥å®Œï¿½??
+shower ccc(light, newclk, msecclk, alarm_mode, show);//ä¸ƒæ®µé¡¯ç¤º?ï¿½ï¿½(?ï¿½ï¿½?ï¿½ï¿½ï¿½?)
 
 
 

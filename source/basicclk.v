@@ -63,6 +63,7 @@ begin    //星期、日期
         
     endcase
 end
+
 if(mode == 3)
 begin
   if(year >= 2911)
@@ -164,8 +165,7 @@ begin
         6 : num = 12;
         7 : num = 12;      
     endcase
-     end
-
+    
     else if(year >= 100 && year < 1000)
   case(light)
         0 : num = 12;
@@ -225,7 +225,7 @@ begin
         6 : num = 12;
         7 : num = 12;      
     endcase
-
-
+ end
+ 
 end
 endmodule

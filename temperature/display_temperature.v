@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module display (clk, chs,oout, mode,  SCL, SDA, RDY_O,ERR_O);
+module display_temperature (clk, chs,oout, mode,  SCL, SDA, RDY_O,ERR_O);
 
 output [7:0]chs ;
 output [7:0]oout;

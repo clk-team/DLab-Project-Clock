@@ -1,11 +1,10 @@
 `timescale 1ns / 1ps
 
-module mode_selection(clk,sel,up,down,rel,modify);
+module mode_selection(clk,up,down,rel,modify);
 
         input clk;
-        input [3:0]sel;
         input up,down,modify;
-        output reg [3:0]rel;
+        output reg [3:0]rel=1;
         
         reg [3:0]cur_state,cur_state_1;
         
@@ -63,8 +62,7 @@ module mode_selection(clk,sel,up,down,rel,modify);
            end
            else if(!up && !down)begin //沒輸入時IDLE,將這時的輸入記下，以便下次up or down更改時利用
                cur_state <= IDLE;
-               rel <= sel;
-               cur_state_1 <= sel;
+               cur_state_1 <= rel;
            end
        end
                 

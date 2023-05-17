@@ -1,6 +1,7 @@
 `timescale 1ns/1ps
 
-module set_time (clk, button_mid, button_r, button_l, button_up, button_down,  mode, set_string, count);
+module set_time (clk, button_mid, button_r, button_l, button_up, button_down,  mode, 
+set_string, count, year_d, month_d, week, day_d, hour_d, min_d, sec_d);
 
 input clk;
 input button_mid;
@@ -16,7 +17,7 @@ reg[7:0]day = 8'h1;
 reg[7:0]hour = 0;
 reg[7:0]minute = 0;
 reg[7:0]sec = 0;
-reg [3:0]week = 0;
+output reg [3:0]week = 0;
 
 reg start_set = 0;
 output reg [83:0] set_string;
@@ -44,12 +45,12 @@ reg [3:0]min_u = 0;
 reg [3:0]sec_t = 0;
 reg [3:0]sec_u = 0;
 
-reg [14:0]year_d;
-reg [3:0]month_d;
-reg [4:0]day_d;
-reg [5:0]hour_d;
-reg [5:0]min_d;
-reg [5:0]sec_d;
+output reg [14:0]year_d;
+output reg [3:0]month_d;
+output reg [4:0]day_d;
+output reg [5:0]hour_d;
+output reg [5:0]min_d;
+output reg [5:0]sec_d;
 
 reg [14:0]year_f;
 reg [3:0]month_f;

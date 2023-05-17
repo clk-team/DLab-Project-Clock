@@ -54,23 +54,6 @@ module set_countdown(clk,up,down,left,right,start,tmp,state,go,modify,mode);
 //modify setting
     
     always@(posedge clk) begin
-        if(modify) begin
-            if(left_counter == 2500000) begin
-                if(mode == 1) 
-                    mode <= 7; 
-                else
-                    mode <= mode - 1;
-            end
-            if(right_counter == 2500000) begin
-                if(mode == 7) 
-                    mode <= 1; 
-                else
-                    mode <= mode + 1;
-            end      
-        end
-    end
-    
-    always@(posedge clk) begin
         cur_state <= next_state;
     end
     
@@ -92,6 +75,7 @@ module set_countdown(clk,up,down,left,right,start,tmp,state,go,modify,mode);
 
     always@(posedge clk) begin
     if(mode == 7) begin
+    if(modify) begin
         if(up_counter == 2500000) begin
         if(!go) begin
             case(cur_state)
@@ -198,6 +182,7 @@ module set_countdown(clk,up,down,left,right,start,tmp,state,go,modify,mode);
         end
     end
     end
+    end
     
     always@(posedge clk) begin
         if(left)
@@ -215,6 +200,7 @@ module set_countdown(clk,up,down,left,right,start,tmp,state,go,modify,mode);
     
     always@(posedge clk) begin
     if(mode == 7) begin
+    if(modify) begin
         if(right_counter == 2500000) begin
         if(!go && cur_state) begin
             case(cur_state)
@@ -241,6 +227,7 @@ module set_countdown(clk,up,down,left,right,start,tmp,state,go,modify,mode);
         else if(time_counter == 200000000) begin
             next_state <= S1;
         end
+    end
     end
     end 
     

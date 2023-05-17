@@ -21,6 +21,11 @@ module current_time(
 );
 
 wire secclk;
+
+reg [14:0]year_f;
+reg [3:0]month_f;
+reg [8:0]week_f = 0;
+
 freq_div div(clk, secclk, 1);
 
 initial begin
@@ -139,6 +144,54 @@ begin
         day <= 1;
      end
 
+     if(month == 1 || month == 2)begin
+        month_f <= month + 12;
+        year_f <= year - 1;
+        
+    end
+    
+    else begin
+        month_f <= month ;
+        year_f <= year;
+        
+    end
+       
+      
+        if(year == 1582)begin
+            if(month > 10)
+                week = (day + 2*month_f + 3*(month_f + 1)/5 + year_f + year_f / 4 - year_f / 100 + year_f / 400 + 1) % 7;
+
+            else if(month == 10)begin
+
+                if(day >= 1 && day <= 4)begin //1~4
+                    week_f = year_f%100 + (year_f%100)/4 - year_f/100 + 2*month_f + (3*(month_f + 1)/5) + day - 1;
+                    if(week_f[8] == 1)
+                        week_f = ~ week_f + 1;
+
+                    week = week_f % 7; 
+                end
+
+                else if(day >= 5 && day <= 14)begin//5~14
+                    day <= 15;
+                end 
+                    
+                
+                else begin //15~31
+                    week = (day + 2*month_f + 3*(month_f + 1)/5 + year_f + year_f / 4 - year_f / 100 + year_f / 400 + 1) % 7;
+                end
+            end
+            else begin
+                week_f = year_f%100 + (year_f%100)/4 - year_f/100 + 2*month_f + (3*(month_f + 1)/5) + day - 1;
+                    if(week_f[8] == 1)
+                        week_f = ~ week_f + 1;
+
+                    week = week_f % 7; 
+            end
+        end
+
+        
+        
+    
 end
    else begin
    year = year_d;

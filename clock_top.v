@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 module clock_top (clk, button_up, button_down, button_right, button_left, button_middle,
- oout, chs, mode);
+ oout, chs, mode, SCL, SDA, RDY_O,ERR_O);
 
 input clk;
 input button_up;
@@ -11,15 +11,20 @@ input button_middle;
 
 output reg[7:0]oout;
 output reg[7:0]chs;
-
+output RDY_O,ERR_O;
     
 input [3:0]mode;
+
+inout SCL,SDA;
 
 wire [7:0]oout_settime;
 wire [7:0]chs_settime;
 
 wire [7:0]oout_currtime;
 wire [7:0]chs_currtime;
+
+wire [7:0]oout_temperature;
+wire [7:0]chs_temperature;
 
 wire[14:0]year_d;
 wire[3:0]month_d;
@@ -46,14 +51,15 @@ main mmm(
     .sec_d(sec_d),
     .week_s(week),
     .mode(mode), 
-    .seg(oout_currtime),  //七段顯示???
-    .show(chs_currtime)  //七段顯示??????電?????
+    .seg(oout_currtime),  
+    .show(chs_currtime)  
     
 );
+display_temperature temp(clk, chs_temperature,oout_temperature, mode,  SCL, SDA, RDY_O,ERR_O);
 
 always @(posedge clk) begin
     case (mode)
-        0:
+         0:
         begin
             oout <= oout_settime;
             chs <= chs_settime;
@@ -62,6 +68,21 @@ always @(posedge clk) begin
         begin
             oout <= oout_currtime;
             chs <= chs_currtime;
+        end
+        2:
+        begin
+            oout <= oout_currtime;
+            chs <= chs_currtime;
+        end
+        3:
+        begin
+            oout <= oout_currtime;
+            chs <= chs_currtime;
+        end
+        4:
+        begin
+            oout <= oout_temperature;
+            chs <= chs_temperature;
         end
         default:
         begin

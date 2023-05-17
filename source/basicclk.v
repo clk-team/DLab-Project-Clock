@@ -67,20 +67,20 @@ begin
   if(year >= 1911)
   case(light)
         0 : num = year / 1000;
-        1 : num = year / 100 - 1000 * (year/1000);
-        2 : num = year / 10 - 100 * (year/100);
-        3 : num = year - 10 * (year/100);
+        1 : num = year / 100 - 10 * (year/1000);
+        2 : num = year / 10 - 10 * (year/100);
+        3 : num = year - 10 * (year/10);
         4 : num = 12;
         5 : num = (year - 1911) / 100;
-        6 : num = (year - 1911) / 10 - 100 * ((year - 1911) / 100) ;
-        7 : num = (year - 1911) - 10 * 10 * ((year - 1911) / 10);      
+        6 : num = (year - 1911) / 10 - 10 * ((year - 1911) / 100) ;
+        7 : num = (year - 1911) - 10 * ((year - 1911) / 10);      
     endcase
    else if(year < 1911)
   case(light)
         0 : num = year / 1000;
-        1 : num = year / 100 - 1000 * (year/1000);
-        2 : num = year / 10 - 100 * (year/100);
-        3 : num = year - 10 * (year/100);
+        1 : num = year / 100 - 10 * (year/1000);
+        2 : num = year / 10 - 10 * (year/100);
+        3 : num = year - 10 * (year/10);
         4 : num = 12;
         5 : num = 12;
         6 : num = 12;

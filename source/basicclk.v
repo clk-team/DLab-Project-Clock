@@ -17,10 +17,9 @@ module basic_clk(
     output reg [10:0]num
 );
 
-
 always @(light)
 begin
-if(mode == 3 && alarm_mode != 0)
+if(mode == 5 && alarm_mode != 0)
 begin
      case(light)
         0 : num = temp_hour / 10;
@@ -34,7 +33,7 @@ begin
     endcase
 end
 
-if(mode == 1 || (mode == 3 && alarm_mode == 0))
+if(mode == 1 || (mode == 5 && alarm_mode == 0))
   begin 
       case(light)
         0 : num = hour / 10;
@@ -48,6 +47,45 @@ if(mode == 1 || (mode == 3 && alarm_mode == 0))
         
     endcase
    end
+
+if(mode == 2)  
+begin    //星期、日期
+  case(light)
+        0 : num = month / 10;
+        1 : num = month - 10 * (month/10);
+        2 : num = 11;
+        3 : num = day / 10;
+        4 : num = day - 10 * (day / 10);
+        5 : num = 11;
+        6 : num = 11;
+        7 : num = week;
+        
+    endcase
+end
+if(mode == 3)
+begin
+  if(year >= 1911)
+  case(light)
+        0 : num = year / 1000;
+        1 : num = year / 100 - 1000 * (year/1000);
+        2 : num = year / 10 - 100 * (year/100);
+        3 : num = year - 10 * (year/100);
+        4 : num = 12;
+        5 : num = (year - 1911) / 100;
+        6 : num = (year - 1911) / 10 - 100 * ((year - 1911) / 100) ;
+        7 : num = (year - 1911) - 10 * 10 * ((year - 1911) / 10);      
+    endcase
+   else if(year < 1911)
+  case(light)
+        0 : num = year / 1000;
+        1 : num = year / 100 - 1000 * (year/1000);
+        2 : num = year / 10 - 100 * (year/100);
+        3 : num = year - 10 * (year/100);
+        4 : num = 12;
+        5 : num = 12;
+        6 : num = 12;
+        7 : num = 12;      
+    endcase
  end
- 
+end
 endmodule

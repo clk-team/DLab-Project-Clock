@@ -46,6 +46,7 @@ end
 current_time bbb(secclk, year, month, day, hour, minute, second, week); //時間變動(mode 0)                    //檢查完成
 mode_selection mode_sel(clk,sel,up,down,rel,middle);
 basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num); //基本時間(mode 1) 時:分:秒    //檢查完成
+
 seven_seg eee(num, seg);//七段顯示器(數字轉換)                                                                //檢查完成
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示器(電晶體)
 alarm fff(switch, newclk, mode, up, down, left, right, hour, minute, second, middle, alarm_mode,temp_hour, temp_minute, temp_second, do); //鬧鐘(mode 3)

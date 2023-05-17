@@ -14,7 +14,8 @@ module basic_clk(
     input [10:0]temp_hour,
     input [10:0]temp_minute,
     input [10:0]temp_second,
-    output reg [10:0]num
+    output reg [10:0]num,
+    output reg dot
 );
 
 always @(light)
@@ -64,28 +65,167 @@ begin    //星期、日期
 end
 if(mode == 3)
 begin
-  if(year >= 1911)
+  if(year >= 2911)
   case(light)
         0 : num = year / 1000;
         1 : num = year / 100 - 10 * (year/1000);
         2 : num = year / 10 - 10 * (year/100);
-        3 : num = year - 10 * (year/10);
-        4 : num = 12;
+        3 : 
+        begin
+        num = year - 10 * (year/10);
+        dot = 0;
+        end
+        4 : 
+        begin
+        num = (year - 1911) / 1000;
+        dot = 1;
+        end
+        5 : num = (year - 1911) / 100 - 10 * ((year - 1911) / 1000);
+        6 : num = (year - 1911) / 10 - 10 * ((year - 1911) / 100) ;
+        7 : num = (year - 1911) - 10 * ((year - 1911) / 10);      
+    endcase
+
+      else if(year < 2911 && year >= 2011)
+  case(light)
+        0 : num = year / 1000;
+        1 : num = year / 100 - 10 * (year/1000);
+        2 : num = year / 10 - 10 * (year/100);
+        3 :
+        begin
+         num = year - 10 * (year/10);
+         dot = 0;
+        end
+        4 :
+        begin
+         num = 12;
+         dot = 1;
+        end
         5 : num = (year - 1911) / 100;
         6 : num = (year - 1911) / 10 - 10 * ((year - 1911) / 100) ;
         7 : num = (year - 1911) - 10 * ((year - 1911) / 10);      
     endcase
-   else if(year < 1911)
+
+     else if(year < 2011 && year >= 1921)
   case(light)
         0 : num = year / 1000;
         1 : num = year / 100 - 10 * (year/1000);
         2 : num = year / 10 - 10 * (year/100);
-        3 : num = year - 10 * (year/10);
-        4 : num = 12;
+        3 :
+        begin
+         num = year - 10 * (year/10);
+         dot = 0;
+        end
+        4 : 
+        begin
+         num = 12;
+         dot = 1;
+        end
+        5 : num = 12;
+        6 : num = (year - 1911) / 10 - 10 * ((year - 1911) / 100) ;
+        7 : num = (year - 1911) - 10 * ((year - 1911) / 10);      
+    endcase
+
+      else if(year < 1921 && year > 1911)
+  case(light)
+        0 : num = year / 1000;
+        1 : num = year / 100 - 10 * (year/1000);
+        2 : num = year / 10 - 10 * (year/100);
+        3 : 
+        begin 
+        num = year - 10 * (year/10);
+        dot = 0;
+        end
+        4 : 
+        begin
+         num = 12;
+         dot = 1;
+        end
+        5 : num = 12;
+        6 : num = 12;
+        7 : num = year - 1911;      
+    endcase
+
+   else if(year >= 1000 && year <= 1911)
+  case(light)
+        0 : num = year / 1000;
+        1 : num = year / 100 - 10 * (year/1000);
+        2 : num = year / 10 - 10 * (year/100);
+        3 : 
+        begin
+        num = year - 10 * (year/10);
+        dot = 0;
+        end
+        4 :
+        begin
+         num = 12;
+         dot = 1;
+        end
         5 : num = 12;
         6 : num = 12;
         7 : num = 12;      
     endcase
- end
+     end
+
+    else if(year >= 100 && year < 1000)
+  case(light)
+        0 : num = 12;
+        1 : num = year / 100;
+        2 : num = year / 10 - 10 * (year/100);
+        3 : 
+        begin
+        num = year - 10 * (year/10);
+        dot = 0;
+        end
+        4 : 
+        begin
+         num = 12;
+         dot = 1;
+        end
+        5 : num = 12;
+        6 : num = 12;
+        7 : num = 12;      
+    endcase
+
+    else if(year >= 10 && year < 100)
+  case(light)
+        0 : num = 12;
+        1 : num = 12;
+        2 : num = year / 10;
+        3 : 
+        begin 
+         dot = 0;
+         num = year - 10 * (year/10);
+        end
+        4 : 
+        begin
+         num = 12;
+         dot = 1;
+        end
+        5 : num = 12;
+        6 : num = 12;
+        7 : num = 12;      
+    endcase
+
+     else if(year < 10)
+  case(light)
+        0 : num = 12;
+        1 : num = 12;
+        2 : num = 12;
+        3 :
+        begin
+         num = year - 10 * (year/10);
+         dot = 0;
+        end
+        4 : 
+        begin
+         num = 12;
+         dot = 1;
+        end
+        5 : num = 12;
+        6 : num = 12;
+        7 : num = 12;      
+    endcase
+
+
 end
 endmodule

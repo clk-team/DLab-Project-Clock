@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module current_time(
     input secclk,
     output reg [15:0]year, 

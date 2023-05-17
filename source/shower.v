@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module shower(
     input [2:0]light,
     input newclk,
@@ -27,48 +29,47 @@ always @(light)
          endcase
     end
 
-    if(alarm_mode == 1)//改變秒
+    else if(alarm_mode == 1)//改變秒
     begin
       case(light)
         0 : a = 8'b01111111;
         1 : a = 8'b10111111;
         2 : a = 8'b11011111;
         3 : a = 8'b11101111;      
-        4 : 
-          if(counter[8] == 0)
-            a = 8'b11110111;
-          else
-            a = 8'b11111111;
-        5 : 
-          if(counter[8] == 0)
-            a = 8'b11111011;
-          else
-            a = 8'b11111111;
-
-        6 : a = 8'b11111101;
-        7 : a = 8'b11111110;
+        4 : a = 8'b11110111;
+        5 : a = 8'b11111011;
+        6 : 
+      if(counter[3] == 0)
+        a = 8'b11111101;
+      else
+        a = 8'b11111111;
+        7 :
+      if(counter[3] == 0)
+        a = 8'b11111110;
+      else
+        a = 8'b11111111;
+        
         default : a = 8'b11111111;
          endcase
     end
 
-    if(alarm_mode == 2)//改變分
-    begin
+    else if(alarm_mode == 2)//改變分
+     begin
       case(light)
         0 : a = 8'b01111111;
         1 : a = 8'b10111111;
-        2 :   
-        if(counter[8] == 0)
-            a = 8'b11011111;
-          else
-            a = 8'b11111111;
-
+        2 : a = 8'b11011111;
         3 :  
-         if(counter[8] == 0)
+         if(counter[3] == 0)
             a = 8'b11101111;
           else
             a = 8'b11111111; 
 
-        4 : a = 8'b11110111;
+        4 :
+        if(counter[3] == 0)
+          a = 8'b11110111;
+        else
+          a = 8'b11111111;
         5 : a = 8'b11111011;
         6 : a = 8'b11111101;
         7 : a = 8'b11111110;
@@ -76,17 +77,17 @@ always @(light)
          endcase
     end
 
-if(alarm_mode == 1)//改變時
+  else if(alarm_mode == 3)//改變時
     begin
       case(light)
         0 :   
-        if(counter[8] == 0)
+        if(counter[3] == 0)
             a = 8'b01111111;
           else
             a = 8'b11111111;
 
         1 :   
-        if(counter[8] == 0)
+        if(counter[3] == 0)
             a = 8'b10111111;
           else
             a = 8'b11111111;
@@ -101,4 +102,5 @@ if(alarm_mode == 1)//改變時
          endcase
       end
     end
+    
     endmodule

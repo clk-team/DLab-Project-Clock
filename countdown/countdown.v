@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-module countdown(clk,start,tmp1,tmp,finish,go,reset);
+module countdown(clk,start,tmp1,tmp,finish,go);
 
-    input clk,start,reset;
+    input clk,start;
     input [31:0]tmp1;
     input go;
     output [31:0]tmp;
@@ -53,12 +53,6 @@ module countdown(clk,start,tmp1,tmp,finish,go,reset);
              finish <= 0;
         end
         if(go) begin
-            tmp2[3:0]   <= sec_1;
-            tmp2[7:4]   <= sec_10;
-            tmp2[15:12] <= min_1;
-            tmp2[19:16] <= min_10;
-            tmp2[27:24] <= hr_1;
-            tmp2[31:28] <= hr_10;
             if(sec_1 == 0 && sec_10 > 0) begin
                 sec_1 <= 9;
                 sec_10 <= sec_10 - 1;
@@ -87,7 +81,7 @@ module countdown(clk,start,tmp1,tmp,finish,go,reset);
                sec_1  <= 9;
                hr_10 <= hr_10 - 1;
             end
-            else if(hr_10 == 0 && hr_1 == 0 && min_10 == 0 && min_1 == 0 && sec_10 == 0 && sec_1 == 0 && !reset)
+            else if(hr_10 == 0 && hr_1 == 0 && min_10 == 0 && min_1 == 0 && sec_10 == 0 && sec_1 == 0)
                 finish <= 1;
         end
         else begin

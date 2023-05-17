@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-module top(clk,up,down,left,right,start,seg,ld,state,modify,mode,reset);
+module top(clk,up,down,left,right,start,seg,ld,state,modify,mode);
 
-    input clk,up,down,left,right,start,modify,reset;
+    input clk,up,down,left,right,start,modify;
     output [7:0]seg,ld;
     output [3:0]state;
     output [3:0]mode;

@@ -44,7 +44,7 @@ begin
         week = week + 1;
       end
 
-    if(week == 😎
+    if(week == 8)
       begin
         week <= 1;
       end

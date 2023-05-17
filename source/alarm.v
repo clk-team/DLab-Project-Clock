@@ -35,7 +35,7 @@ module alarm(
 
 always @(posedge newclk)
 begin
-    if(mode != 3)
+    if(mode != 5)
       alarm_mode = 0;
       
     if(middle == 0 && temp == 1 && left == 0 && right == 0) //可以再次編譯

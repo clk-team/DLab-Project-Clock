@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 module clock_top (clk, button_up, button_down, button_right, button_left, button_middle,
- oout, chs);
+ oout, chs, mode);
 
 input clk;
 input button_up;
@@ -13,7 +13,7 @@ output reg[7:0]oout;
 output reg[7:0]chs;
 
     
-wire [3:0]mode;
+input [3:0]mode;
 
 wire [7:0]oout_settime;
 wire [7:0]chs_settime;
@@ -29,8 +29,8 @@ wire[5:0]min_d;
 wire[5:0]sec_d;
 wire[3:0]week ;
 
-mode_selection sss(clk,button_up,button_down,mode,button_middle);
-display_settime set(clk, chs_settime,oout_settime, sel, button_mid, button_r, button_l, button_up, button_down, mode, year_d,month_d, day_d, week, hour_d,min_d,sec_d);
+
+display_settime set(clk, chs_settime,oout_settime, sel,button_middle, button_right, button_left, button_up, button_down, mode, year_d,month_d, day_d, week, hour_d,min_d,sec_d);
 main mmm(
     .clk(clk),
     .up(button_up),

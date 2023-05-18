@@ -2,6 +2,7 @@
 
 module current_time(
    input clk,
+   input quick,
    input  [14:0]year_d,
    input  [3:0]month_d,
    input  [4:0]day_d,
@@ -10,6 +11,7 @@ module current_time(
    input  [5:0]sec_d,
    input  [3:0]week_s,
    input  [3:0]mode, 
+   
 
    output reg [15:0]year, 
    output reg [5:0]month, 
@@ -26,7 +28,7 @@ reg [14:0]year_f;
 reg [3:0]month_f;
 reg [8:0]week_f = 0;
 
-freq_div div(clk, secclk, 1);
+freq_div_q ddd(clk, secclk, quick);
 
 initial begin
     year = 2023;

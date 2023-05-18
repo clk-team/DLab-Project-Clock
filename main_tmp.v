@@ -5,6 +5,7 @@ module main(
     input left,
     input right,
     input middle,
+    input quick,
     input  [14:0]year_d,
    input  [3:0]month_d,
    input  [4:0]day_d,
@@ -15,7 +16,7 @@ module main(
    input  [3:0]mode, 
     output [7:0]seg,  //七段顯示?��
     output [7:0]show,  //七段顯示?��??�電?���?
-    output dot = 1
+    output dot
     
 );
 wire [15:0]year;
@@ -56,10 +57,11 @@ current_time ttt(
    .minute(minute), 
    .second(second), 
    .week(week),
-   .dot(dot)
+   
+   .quick(quick)
 );                    
 
-basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num); //?��?��??��??(mode 1) ???:???:�?    //檢查完�??
+basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num,dot); //?��?��??��??(mode 1) ???:???:�?    //檢查完�??
 seven_seg eee(num, seg);//七段顯示?��(?��字�?��??)                                                                //檢查完�??
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示?��(?��?���?)
 

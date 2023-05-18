@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 module clock_top (clk, button_up, button_down, button_right, button_left, button_middle,
- oout, chs, mode, SCL, SDA, RDY_O,ERR_O);
+ oout, chs, mode, SCL, SDA, RDY_O,ERR_O, dot, quick);
 
 input clk;
 input button_up;
@@ -8,10 +8,12 @@ input button_down;
 input button_left;
 input button_right;
 input button_middle;
+input quick;
 
 output reg[7:0]oout;
 output reg[7:0]chs;
 output RDY_O,ERR_O;
+output dot;
     
 input [3:0]mode;
 
@@ -52,7 +54,9 @@ main mmm(
     .week_s(week),
     .mode(mode), 
     .seg(oout_currtime),  
-    .show(chs_currtime)  
+    .show(chs_currtime),
+    .dot(dot),
+    .quick(quick)  
     
 );
 display_temperature temp(clk, chs_temperature,oout_temperature, mode,  SCL, SDA, RDY_O,ERR_O);

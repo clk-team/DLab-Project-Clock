@@ -18,18 +18,18 @@
 ![clk](picture/clk_update1.svg)
 
 # 完成清單
-- [ ] 時間資訊
+- [x] 時間資訊
 - [ ] 時間模式選擇
-- [ ] 溫度
-- [ ] 顯示模式
+- [x] 溫度
+- [x] 顯示模式
 - [ ] 鬧鐘
 - [ ] 碼表
 - [ ] 倒計時
 - [x] Mode選擇器  
-  
+- [x] 設定時間    
 
-  
- 
+ # 測試包
+ https://drive.google.com/drive/folders/1XAJbarrVKNm8lw3I7C5_5kuRl_Auur8x?usp=share_link
 # Module port
 
 **For example**

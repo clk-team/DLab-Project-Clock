@@ -15,7 +15,7 @@ module basic_clk(
     input [10:0]temp_minute,
     input [10:0]temp_second,
     output reg [10:0]num,
-    output reg dot
+    output reg dot = 1
 );
 
 always @(light)
@@ -226,6 +226,7 @@ begin
         7 : num = 12;      
     endcase
  end
- 
+// if(!(mode==3))
+//    dot <= 1;
 end
 endmodule

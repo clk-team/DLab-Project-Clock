@@ -13,8 +13,10 @@ module main(
    input  [5:0]sec_d,
    input  [3:0]week_s,
    input  [3:0]mode, 
-    output [7:0]seg,  //ä¸ƒæ®µé¡¯ç¤º?™¨
-    output [7:0]show  //ä¸ƒæ®µé¡¯ç¤º?™¨??„é›»?™¶é«?
+    output [7:0]seg,  //ä¸ƒæ®µé¡¯ç¤º???
+    output [7:0]show,  //ä¸ƒæ®µé¡¯ç¤º??????é›»?????
+    output sound, //è²éŸ³
+    output dot 
     
 );
 wire [15:0]year;
@@ -23,14 +25,22 @@ wire [10:0]day;
 wire[10:0]hour; 
 wire [10:0]minute; 
 wire [10:0]second; 
-wire [10:0]week;  //å¹´ã?æ?ˆã?æ—¥?æ?‚ã?å?†ã?ç?’ã?æ?Ÿæ??
-wire newclk;  //?™¤? »
-wire secclk, msecclk;  //ç§’ã?æ¯«ç§?
+wire [10:0]week;  //å¹´?????????æ—¥??????????????????????????
+wire newclk;  //??????
+wire secclk, msecclk;  //ç§’???æ¯«??
 wire [10:0]num;  
-reg [2:0]light = 0; //?›»?™¶é«?
+reg [2:0]light = 0; //????????
+wire[2:0] alarm_mode = 0;  //0:æ­£å¸¸ 1:æ”¹è®Šç§’ 2:æ”¹è®Šåˆ† 3:æ”¹è®Šæ™‚
 
-divider aaa(clk, secclk, msecclk, newclk);  //ç§’ã?æ¯«ç§?
+divider aaa(clk, secclk, msecclk, newclk);  //ç§’???æ¯«??
 
+
+//é¬§é˜
+wire [10:0]temp_hour;
+wire[10:0] temp_minute;
+wire[10:0]temp_second;
+
+wire[5:0] music;//æ‹¿è˜­å‚³éŸ³ç¬¦
 always @(posedge newclk)
 begin
     light <= light + 1;
@@ -55,11 +65,16 @@ current_time ttt(
    .minute(minute), 
    .second(second), 
    .week(week)
+   
 );                    
 
-basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num); //?Ÿº?œ¬??‚é??(mode 1) ???:???:ç§?    //æª¢æŸ¥å®Œæ??
-seven_seg eee(num, seg);//ä¸ƒæ®µé¡¯ç¤º?™¨(?•¸å­—è?‰æ??)                                                                //æª¢æŸ¥å®Œæ??
-shower ccc(light, newclk, msecclk, alarm_mode, show);//ä¸ƒæ®µé¡¯ç¤º?™¨(?›»?™¶é«?)
+basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_mode, temp_hour, temp_minute, temp_second, num, dot); //????????????(mode 1) ???:???:??    //æª¢æŸ¥å®Œ???
+seven_seg eee(num, seg);//ä¸ƒæ®µé¡¯ç¤º???(???å­—??????)                                                                //æª¢æŸ¥å®Œ???
+shower ccc(light, newclk, msecclk, alarm_mode, show);//ä¸ƒæ®µé¡¯ç¤º???(????????)
+
+alarm fff(switch, newclk, mode, up, down, left, right, hour, minute, second, middle, alarm_mode,temp_hour, temp_minute, temp_second, do); //é¬§é˜(mode 3)
+musicwake ggg(do, music);  //å•Ÿå‹•éŸ³æ¨‚(æ¨‚è­œ)
+music hhh( clk, music, sound);  //è²éŸ³è½‰æ›(soundç‚ºè¼¸å‡º)
 
 
 

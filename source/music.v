@@ -41,7 +41,7 @@ sound
            26 : freq = 11'd1175;//d
            27 : freq = 11'd1245;
             //switch off 7 segment character when the bcd digit is not a decimal number.
-            default : freq = 11'd1;
+            default : freq = 11'd50_000_000;
         endcase
   //      sound = 125_00/freq;
     end

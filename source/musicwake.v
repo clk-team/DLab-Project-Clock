@@ -14,7 +14,7 @@ reg allow;//開放放歌
 
 initial begin
   tempclk = 0;
-  //music = 0;
+  music = 0;
   song = 0;
 end
 
@@ -23,15 +23,13 @@ always @(posedge msecclk)
    tempclk <= tempclk + 1;
   end
 
-always @(tempclk) begin
+always @(msecclk) begin
  if(do == 0)
   begin
-    //song = 0;
-    //music = 1;
     allow = 0;
   end
 
-if(do == 1)
+else if(do == 1)
   begin
   allow = 1;
   end 
@@ -50,6 +48,7 @@ end
  end
  
  always @(tempclk[2])
+
    begin
      case(song)
        0 : music = 63;
@@ -208,4 +207,5 @@ end
        default : music = 63;
      endcase
    end
+
 endmodule

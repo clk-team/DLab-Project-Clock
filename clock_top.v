@@ -1,21 +1,24 @@
 `timescale 1ns/1ps
 module clock_top (clk, button_up, button_down, button_right, button_left, button_middle,
- oout, chs, mode, SCL, SDA, RDY_O,ERR_O, dot, quick);
+ oout, chs, SCL, SDA, RDY_O,ERR_O, dot,sound,switch, do, start);
 
+input switch;  //鬧鐘的勿擾
 input clk;
 input button_up;
 input button_down;
 input button_left;
 input button_right;
 input button_middle;
-input quick;
+input start;
 
 output reg[7:0]oout;
 output reg[7:0]chs;
 output RDY_O,ERR_O;
 output dot;
+output sound;
+output do;
     
-input [3:0]mode;
+//input [3:0]mode;
 
 inout SCL,SDA;
 
@@ -28,6 +31,12 @@ wire [7:0]chs_currtime;
 wire [7:0]oout_temperature;
 wire [7:0]chs_temperature;
 
+wire [7:0]oout_stopwatch;
+wire [7:0]chs_stopwatch;
+
+wire [7:0]oout_countdown;
+wire [7:0]chs_countdown;
+
 wire[14:0]year_d;
 wire[3:0]month_d;
 wire[4:0]day_d;
@@ -35,8 +44,9 @@ wire[5:0]hour_d;
 wire[5:0]min_d;
 wire[5:0]sec_d;
 wire[3:0]week ;
+wire [3:0]mode;
 
-
+mode_sel (clk, button_left, button_right, button_middle, mode, start);
 display_settime set(clk, chs_settime,oout_settime, sel,button_middle, button_right, button_left, button_up, button_down, mode, year_d,month_d, day_d, week, hour_d,min_d,sec_d);
 main mmm(
     .clk(clk),
@@ -56,11 +66,13 @@ main mmm(
     .seg(oout_currtime),  
     .show(chs_currtime),
     .dot(dot),
-    .quick(quick)  
-    
+    .sound(sound),
+    .switch(switch),  
+    .do(do)
 );
 display_temperature temp(clk, chs_temperature,oout_temperature, mode,  SCL, SDA, RDY_O,ERR_O);
-
+top_stopwatch stop(clk,start,switch,oout_stopwatch,chs_stopwatch,mode,button_middle);
+top_countdown countd(clk,button_up,button_down,button_left,button_right,start,oout_countdown,chs_countdown,state,button_middle,mode);
 always @(posedge clk) begin
     case (mode)
          0:
@@ -87,6 +99,21 @@ always @(posedge clk) begin
         begin
             oout <= oout_temperature;
             chs <= chs_temperature;
+        end
+         5:
+        begin
+            oout <= oout_currtime;
+            chs <= chs_currtime;
+        end
+         6:
+        begin
+            oout <= oout_stopwatch;
+            chs <= chs_stopwatch;
+        end
+         7:
+        begin
+            oout <=oout_countdown;
+            chs <= chs_countdown;
         end
         default:
         begin

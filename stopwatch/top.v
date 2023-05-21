@@ -15,7 +15,7 @@ module top(clk,start,reset,seg,ld,mode,modify);
     timeset timese(clk,clk2);
     show sh(clk2,ld);
     stopwatch stop(clk,start,reset,go,tmp,mode,modify);
-    words word(last,clk2,clk,tmp);
+    words_stopwatch word(last,clk2,clk,tmp);
     BCD_Encoder bcd(last,seg);
     
     

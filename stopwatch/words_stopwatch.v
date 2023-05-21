@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module words(last,clk,clk_o,tmp);
+module words_stopwatch(last,clk,clk_o,tmp);
     
     input clk,clk_o;
     output reg[3:0]last;

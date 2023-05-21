@@ -63,24 +63,29 @@ begin    //星期、日期
         
     endcase
 end
-
+if(mode != 3)
+  dot = 1;
 if(mode == 3)
 begin
+
+    case(light)
+        0 : dot = 1;
+        1 : dot = 1;
+        2 : dot = 1;
+        3 : dot = 0;
+        4 : dot = 1;
+        5 : dot = 1;
+        6 : dot = 1;
+        7 : dot = 1; 
+    endcase
+
   if(year >= 2911)
   case(light)
         0 : num = year / 1000;
         1 : num = year / 100 - 10 * (year/1000);
         2 : num = year / 10 - 10 * (year/100);
-        3 : 
-        begin
-        num = year - 10 * (year/10);
-        dot = 0;
-        end
-        4 : 
-        begin
-        num = (year - 1911) / 1000;
-        dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = (year - 1911) / 1000;
         5 : num = (year - 1911) / 100 - 10 * ((year - 1911) / 1000);
         6 : num = (year - 1911) / 10 - 10 * ((year - 1911) / 100) ;
         7 : num = (year - 1911) - 10 * ((year - 1911) / 10);      
@@ -91,16 +96,8 @@ begin
         0 : num = year / 1000;
         1 : num = year / 100 - 10 * (year/1000);
         2 : num = year / 10 - 10 * (year/100);
-        3 :
-        begin
-         num = year - 10 * (year/10);
-         dot = 0;
-        end
-        4 :
-        begin
-         num = 12;
-         dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = 12;
         5 : num = (year - 1911) / 100;
         6 : num = (year - 1911) / 10 - 10 * ((year - 1911) / 100) ;
         7 : num = (year - 1911) - 10 * ((year - 1911) / 10);      
@@ -111,16 +108,8 @@ begin
         0 : num = year / 1000;
         1 : num = year / 100 - 10 * (year/1000);
         2 : num = year / 10 - 10 * (year/100);
-        3 :
-        begin
-         num = year - 10 * (year/10);
-         dot = 0;
-        end
-        4 : 
-        begin
-         num = 12;
-         dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = 12;
         5 : num = 12;
         6 : num = (year - 1911) / 10 - 10 * ((year - 1911) / 100) ;
         7 : num = (year - 1911) - 10 * ((year - 1911) / 10);      
@@ -131,16 +120,8 @@ begin
         0 : num = year / 1000;
         1 : num = year / 100 - 10 * (year/1000);
         2 : num = year / 10 - 10 * (year/100);
-        3 : 
-        begin 
-        num = year - 10 * (year/10);
-        dot = 0;
-        end
-        4 : 
-        begin
-         num = 12;
-         dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = 12;
         5 : num = 12;
         6 : num = 12;
         7 : num = year - 1911;      
@@ -151,16 +132,8 @@ begin
         0 : num = year / 1000;
         1 : num = year / 100 - 10 * (year/1000);
         2 : num = year / 10 - 10 * (year/100);
-        3 : 
-        begin
-        num = year - 10 * (year/10);
-        dot = 0;
-        end
-        4 :
-        begin
-         num = 12;
-         dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = 12;
         5 : num = 12;
         6 : num = 12;
         7 : num = 12;      
@@ -171,16 +144,8 @@ begin
         0 : num = 12;
         1 : num = year / 100;
         2 : num = year / 10 - 10 * (year/100);
-        3 : 
-        begin
-        num = year - 10 * (year/10);
-        dot = 0;
-        end
-        4 : 
-        begin
-         num = 12;
-         dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = 12;
         5 : num = 12;
         6 : num = 12;
         7 : num = 12;      
@@ -191,16 +156,8 @@ begin
         0 : num = 12;
         1 : num = 12;
         2 : num = year / 10;
-        3 : 
-        begin 
-         dot = 0;
-         num = year - 10 * (year/10);
-        end
-        4 : 
-        begin
-         num = 12;
-         dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = 12;
         5 : num = 12;
         6 : num = 12;
         7 : num = 12;      
@@ -211,21 +168,14 @@ begin
         0 : num = 12;
         1 : num = 12;
         2 : num = 12;
-        3 :
-        begin
-         num = year - 10 * (year/10);
-         dot = 0;
-        end
-        4 : 
-        begin
-         num = 12;
-         dot = 1;
-        end
+        3 : num = year - 10 * (year/10);
+        4 : num = 12;
         5 : num = 12;
         6 : num = 12;
         7 : num = 12;      
     endcase
  end
- 
+// if(!(mode==3))
+//    dot <= 1;
 end
 endmodule

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module top(clk,up,down,left,right,start,seg,ld,state,modify,mode);
+module top_countdown(clk,up,down,left,right,start,seg,ld,state,modify,mode);
 
     input clk,up,down,left,right,start,modify;
     output [7:0]seg,ld;
@@ -23,7 +23,7 @@ module top(clk,up,down,left,right,start,seg,ld,state,modify,mode);
     show sh(clk2,ld);
     set_countdown set_count(clk,up,down,left,right,start,tmp1,state,go,modify,mode);
     countdown cd(clk,start,tmp1,tmp,finish,go);
-    words words(last,clk2,clk,tmp,tmp1,state,go,finish);
+    words_countdowm words(last,clk2,clk,tmp,tmp1,state,go,finish);
     BCD_Encoder bcd(last,seg);
     
     

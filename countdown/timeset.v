@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 
-module timeset(clk,clk2);
+module timeset_countdown(clk,clk2);
     input clk;
     output clk2;
     reg [15:0]q;

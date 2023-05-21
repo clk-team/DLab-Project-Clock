@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module words(last,clk,clk_o,tmp,tmp1,state,go,finish);
+module words_countdowm(last,clk,clk_o,tmp,tmp1,state,go,finish);
     
     input clk,clk_o;
     input [31:0]tmp1;

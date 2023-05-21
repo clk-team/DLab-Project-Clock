@@ -3,7 +3,7 @@
 module set_countdown(clk,up,down,left,right,start,tmp,state,go,modify,mode);
 
     input clk,up,down,left,right,start,modify;
-    output reg [3:0]mode = 7;
+    input [3:0]mode;
     output [31:0]tmp;
     output [3:0]state;
     output reg go=0;

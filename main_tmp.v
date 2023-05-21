@@ -5,7 +5,7 @@ module main(
     input left,
     input right,
     input middle,
-    input quick,
+    input switch,  //鬧鐘的勿擾
     input  [14:0]year_d,
    input  [3:0]month_d,
    input  [4:0]day_d,
@@ -16,9 +16,10 @@ module main(
    input  [3:0]mode, 
     output [7:0]seg,  //七段顯示???
     output [7:0]show,  //七段顯示??????電?????
-    output sound, //聲音
-    output dot 
+    output sound , //聲音
     
+    output dot, 
+    output do
 );
 wire [15:0]year;
 wire [5:0]month;
@@ -31,7 +32,8 @@ wire newclk;  //??????
 wire secclk, msecclk;  //秒???毫??
 wire [10:0]num;  
 reg [2:0]light = 0; //????????
-wire[2:0] alarm_mode = 0;  //0:正常 1:改變秒 2:改變分 3:改變時
+
+wire[2:0] alarm_mode;  //0:正常 1:改變秒 2:改變分 3:改變時
 
 divider aaa(clk, secclk, msecclk, newclk);  //秒???毫??
 
@@ -73,10 +75,9 @@ basic_clk ddd(mode, light, year, month, day, hour, minute, second, week, alarm_m
 seven_seg eee(num, seg);//七段顯示???(???字??????)                                                                //檢查完???
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示???(????????)
 
+music hhh( clk, music, sound);  //聲音轉換(sound為輸出)
 alarm fff(switch, newclk, mode, up, down, left, right, hour, minute, second, middle, alarm_mode,temp_hour, temp_minute, temp_second, do); //鬧鐘(mode 3)
 musicwake ggg(do, music);  //啟動音樂(樂譜)
-music hhh( clk, music, sound);  //聲音轉換(sound為輸出)
-
 
 
 

@@ -19,7 +19,8 @@ module main(
     output sound , //聲音
     
     output dot, 
-    output do
+    output do,
+    input do_1
 );
 wire [15:0]year;
 wire [5:0]month;
@@ -76,7 +77,7 @@ seven_seg eee(num, seg);//七段顯示???(???字??????)                         
 shower ccc(light, newclk, msecclk, alarm_mode, show);//七段顯示???(????????)
 
 music hhh( clk, music, sound);  //聲音轉換(sound為輸出)
-alarm fff(switch, newclk, mode, up, down, left, right, hour, minute, second, middle, alarm_mode,temp_hour, temp_minute, temp_second, do); //鬧鐘(mode 3)
+alarm fff(switch, newclk, mode, up, down, left, right, hour, minute, second, middle, alarm_mode,temp_hour, temp_minute, temp_second, do, do_1); //鬧鐘(mode 3)
 musicwake ggg(do, music);  //啟動音樂(樂譜)
 
 

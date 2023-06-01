@@ -3,7 +3,7 @@
 module timeset(clk,clk2);
     input clk;
     output clk2;
-    reg [30:0]q;
+    reg [15:0]q;
     always@(posedge clk) begin
         q <= q + 1;
     end

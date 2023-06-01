@@ -45,11 +45,15 @@ module set_countdown(clk,up,down,left,right,start,tmp,state,go,modify,mode);
     end
     
     always@(posedge clk) begin
+    if(mode==7) begin
+        if(modify) begin
         if(time_counter == 2500000) begin
            go <= ~go;
         end
         else if(time_counter == 200000000)
            go <= 0;
+    end
+    end
     end
 //modify setting
     

@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-module mode_sel (clk, button_l, button_r, button_m, mode);
+module mode_sel (clk, button_l, button_r, button_m, mode, set);
 
 input clk;
 input button_l, button_m, button_r;
@@ -44,6 +44,7 @@ always @(posedge clk) begin
     end
 
     if(timer == 100000000) begin
+        if(set != 1) begin
         if(button_m == 1)begin
             
             if(change == 0)begin
@@ -57,6 +58,7 @@ always @(posedge clk) begin
             end
                  
             
+        end
         end
     end
 

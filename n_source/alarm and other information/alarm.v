@@ -16,16 +16,17 @@ module alarm(
     output reg [10:0]temp_hour,
     output reg [10:0]temp_minute,
     output reg [10:0]temp_second,
-    output reg do
+    output reg do,
+    input do_1
     );
 
     reg temp;
     reg [15:0]count;
     reg new;
   initial begin
-    temp = 0;  //開放編譯
+    temp = 0;  //??蝺刻陌
     do = 0;    
-    alarm_mode = 0;
+    alarm_mode = 2;
     count = 0;
     temp_hour = 26;
     temp_minute = 0;
@@ -37,8 +38,9 @@ always @(posedge newclk)
 begin
     if(mode != 5)
       alarm_mode = 0;
-      
-    if(middle == 0 && temp == 1 && left == 0 && right == 0) //可以再次編譯
+      if(mode == 5)
+      begin
+    if(middle == 0 && temp == 1 && left == 0 && right == 0) 
         count <= count + 1;
       else
       count <= 0;
@@ -48,28 +50,29 @@ begin
       temp = 0;
     end
       
-    if(temp == 0 && middle == 1 && alarm_mode == 0 && new ==0)//開啟轉換狀態
+    if(temp == 0 && middle == 1 && alarm_mode == 0 && new ==0)
     begin
      alarm_mode = 1;
      temp = 1;
-
+     new = 1;
+     
      temp_hour = hour;
      temp_minute = minute;
      temp_second = second;
   end
-    else if(temp == 0 && middle == 1 && alarm_mode == 0 && new == 1)//開啟轉換狀態
+    else if(temp == 0 && middle == 1 && alarm_mode == 0 && new == 1)
     begin
      alarm_mode = 1;
      temp = 1;
   end
 
-    if(temp == 0 && middle == 1 && alarm_mode != 0)//關閉轉換狀態
+    if(temp == 0 && middle == 1 && alarm_mode != 0)
       begin
          alarm_mode = 0;
          temp = 1;
       end
 
-    if(alarm_mode == 1 && left == 1 && temp == 0) //轉換模式
+    if(alarm_mode == 1 && left == 1 && temp == 0) 
     begin
        alarm_mode = 2;
        temp = 1;
@@ -97,11 +100,11 @@ begin
      end 
     else if(alarm_mode == 3 && right == 1 && temp == 0)
     begin
-       alarm_mode = 2;        //
+       alarm_mode = 2;        
        temp = 1;
     end
     
-    if(alarm_mode == 1)  //改秒
+    if(alarm_mode == 1)  
     begin
         if(up == 1 && temp == 0)
         begin
@@ -116,7 +119,7 @@ begin
         end
     end
   
-    if(alarm_mode == 2)  //改分
+    if(alarm_mode == 2)  
     begin
         if(up == 1 && temp == 0)
         begin
@@ -131,7 +134,7 @@ begin
         end
     end
 
-    if(alarm_mode == 3)  //改時
+    if(alarm_mode == 3)  
     begin
         if(up == 1 && temp == 0)
         begin
@@ -146,10 +149,13 @@ begin
         end
     end
   
-    if(alarm_mode == 0 && temp_hour == hour && temp_minute == minute && temp_second == second)  //開始放歌
+    if(alarm_mode == 0 && temp_hour == hour && temp_minute == minute && temp_second == second)  
     begin
       do = 1;
     end
+    
+    if(do_1 == 1)
+        do <= 1;
     
     if(switch == 1)
        do = 0;
@@ -168,5 +174,6 @@ begin
       temp_hour = 23;
     else if(alarm_mode != 0 && temp_hour >= 24)
       temp_hour = 0;
+  end
   end
 endmodule

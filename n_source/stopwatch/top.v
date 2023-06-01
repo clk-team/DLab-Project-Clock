@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module top(clk,start,reset,seg,ld,mode,modify);
+module top_stopwatch(clk,start,reset,seg,ld,mode,modify);
 
     input clk,reset,start,modify;
     input [3:0]mode;
@@ -14,7 +14,7 @@ module top(clk,start,reset,seg,ld,mode,modify);
     
     timeset timese(clk,clk2);
     show sh(clk2,ld);
-    stopwatch stop(clk,start,reset,go,tmp,mode,modify);
+    stopwatch stop(clk,start,reset,tmp,mode,modify);
     words_stopwatch word(last,clk2,clk,tmp);
     BCD_Encoder bcd(last,seg);
     

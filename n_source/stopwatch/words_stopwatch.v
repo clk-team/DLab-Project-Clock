@@ -9,27 +9,19 @@ module words_stopwatch(last,clk,clk_o,tmp);
     reg [3:0]se[0:7];
     reg [3:0]counter=0;
     reg [7:0]pwm = 0;
-    wire sec_clk;
     
-    timeset_sec t1(clk_o,sec_clk,100);
     
     always@(posedge clk) begin
         se[7] <= tmp[31:28];
         se[6] <= tmp[27:24];
-        se[5] <= tmp[23:20];
+        se[5] <= 4'hb;
         se[4] <= tmp[19:16];
         se[3] <= tmp[15:12];
-        se[2] <= tmp[11:8];
+        se[2] <= 4'hb;
         se[1] <= tmp[7:4];
         se[0] <= tmp[3:0];
     end
-        
-    always@(posedge sec_clk) begin
-        if(pwm >=100)
-            pwm <= 0;
-        else
-            pwm <= pwm + 1;
-    end    
+          
         
    always@(posedge clk) begin
         if(counter >= 7)

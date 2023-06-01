@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 
-module BCD_Encoder(
+module BCD_Encoder_c(
      bcd,
      seg
     );
@@ -25,7 +25,7 @@ module BCD_Encoder(
             7 : seg = 8'b00011111;
             8 : seg = 8'b00000001;
             9 : seg = 8'b00001001;
-         
+           11 : seg = 8'b11111101;
             //switch off 7 segment character when the bcd digit is not a decimal number.
             default : seg = 8'b11111111; 
         endcase

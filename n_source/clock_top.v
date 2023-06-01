@@ -17,7 +17,7 @@ output RDY_O,ERR_O;
 output dot;
 output sound;
 output do;
-    
+
 //input [3:0]mode;
 
 inout SCL,SDA;
@@ -45,6 +45,7 @@ wire[5:0]min_d;
 wire[5:0]sec_d;
 wire[3:0]week ;
 wire [3:0]mode;
+wire do_1;
 
 mode_sel (clk, button_left, button_right, button_middle, mode, start);
 display_settime set(clk, chs_settime,oout_settime, sel,button_middle, button_right, button_left, button_up, button_down, mode, year_d,month_d, day_d, week, hour_d,min_d,sec_d);
@@ -68,11 +69,12 @@ main mmm(
     .dot(dot),
     .sound(sound),
     .switch(switch),  
-    .do(do)
+    .do(do),
+    .do_1(do_1)
 );
 display_temperature temp(clk, chs_temperature,oout_temperature, mode,  SCL, SDA, RDY_O,ERR_O);
-top_stopwatch stop(clk,start,switch,oout_stopwatch,chs_stopwatch,mode,button_middle);
-top_countdown countd(clk,button_up,button_down,button_left,button_right,start,oout_countdown,chs_countdown,state,button_middle,mode);
+top_stopwatch stop(clk,button_middle,switch,oout_stopwatch,chs_stopwatch,mode,start);
+top_countdown countd(clk,button_up,button_down,button_left,button_right,button_middle,oout_countdown,chs_countdown,state,start,mode,do_1);
 always @(posedge clk) begin
     case (mode)
          0:

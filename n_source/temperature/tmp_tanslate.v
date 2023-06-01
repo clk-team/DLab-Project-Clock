@@ -17,12 +17,12 @@ reg [23:0] nowcolor;
 
 reg [11:0]pwm = 0;
 
-parameter RGB_10 =  24'h180DF3,
+parameter  RGB_10 =  24'h180DF3,
           RGB_15 =  24'h15D7EB,
           RGB_20 =  24'h22DE6E,         
           RGB_25 =  24'h43C739,
-          RGB_30 =  24'hF2C10E,
-          RGB_38 =  24'hE4471C,
+          RGB_30 =  24'hDA6D00,
+          RGB_38 =  24'hFF1900,
           RGB_40 =  24'hFF0000;
 
 

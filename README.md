@@ -12,7 +12,7 @@
 
 - 操作及功能介紹請看實際演示影片 
 
-- **FPGA板為NEXYS 4 DDR** @@
+- **FPGA板為NEXYS 4 DDR** 
 
 
 

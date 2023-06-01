@@ -8,23 +8,13 @@ module stopwatch(clk,start,reset,tmp,mode,modify);
     
     reg[3:0] hr_10=0,hr_1=0,min_10=0,min_1=0,sec_10=0,sec_1=0;
     reg [31:0]counter=0;
-    reg [6:0]min_count=0,hr_count=0;
-    reg hr_clk=0,min_clk=0;
     reg sec_clk=0;
-    reg sc=0,mc=0;
     reg go = 0;
     reg [7:0] sec=0;
     reg [7:0] min=0;
     reg [7:0] hour=0;
     reg [31:0]time_counter=0;
-    reg [31:0]up_counter=0;
-    reg [31:0]down_counter=0;
-    reg [31:0]left_counter=0;
-    reg [31:0]right_counter=0;
-    integer i=0;
-    reg debounce=0;
-    reg reset_1 = 0;
-    reg [31:0]tmp2=32'h00b00b01;
+
    always@(posedge clk) begin
         if(start) begin
             time_counter <= time_counter + 1;
@@ -54,6 +44,15 @@ module stopwatch(clk,start,reset,tmp,mode,modify);
     end  
     
     always@(posedge sec_clk) begin
+    if(reset)begin
+               hr_1 <= 0;
+               min_10 <= 0;
+               min_1  <= 0;
+               sec_10 <= 0;
+               sec_1  <= 0;
+               hr_10  <= 0;
+    
+    end
         if(go) begin
         sec_1 <= sec_1 + 1;
             if(sec_1 == 9 && sec_10 < 9) begin

@@ -52,6 +52,7 @@ module countdown(clk,start,tmp1,tmp,finish,go,do);
         if(hr_10 != 0 || hr_1 != 0 || min_10 != 0 || min_1 != 0 || sec_10 != 0 || sec_1 != 0) begin
              sec_1 <= sec_1 - 1;
              finish <= 0;
+             do <= 0;
         end
         if(go) begin
             if(sec_1 == 0 && sec_10 > 0) begin

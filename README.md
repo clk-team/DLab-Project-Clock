@@ -28,6 +28,5 @@
 - [x] Mode選擇器  
 - [x] 設定時間    
 
- # 測試包
- [Test Bag Link](https://drive.google.com/drive/folders/1gvPzHoGoldaw2fglVh-lpfTc2r123Y5a?usp=sharing)
+
   
